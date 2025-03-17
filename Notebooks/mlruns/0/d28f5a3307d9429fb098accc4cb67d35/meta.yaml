@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/Ian/PythonProjects/infnet-25E1_3/Notebooks/mlruns/0/d28f5a3307d9429fb098accc4cb67d35/artifacts
+end_time: 1742162826829
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d28f5a3307d9429fb098accc4cb67d35
+run_name: Treinamento_Regressao_Logistica
+run_uuid: d28f5a3307d9429fb098accc4cb67d35
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742162826772
+status: 3
+tags: []
+user_id: Ian

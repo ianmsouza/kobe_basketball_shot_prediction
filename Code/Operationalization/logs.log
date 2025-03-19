@@ -1,0 +1,25 @@
+2025-03-18 21:31:09,509:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-18 21:31:09,509:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-18 21:31:09,509:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-18 21:31:09,509:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-18 21:31:10,075:INFO:Initializing load_model()
+2025-03-18 21:31:10,075:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:31:47,748:INFO:Initializing load_model()
+2025-03-18 21:31:47,748:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:32:06,883:INFO:Initializing load_model()
+2025-03-18 21:32:06,883:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:32:40,135:INFO:Initializing load_model()
+2025-03-18 21:32:40,135:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:33:14,620:INFO:Initializing load_model()
+2025-03-18 21:33:14,620:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:35:21,586:INFO:Initializing load_model()
+2025-03-18 21:35:21,586:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-18 21:35:21,637:WARNING:c:\Users\Ian\anaconda3\envs\infnet-25E1_3_v2\lib\site-packages\sklearn\utils\_array_api.py:290: RuntimeWarning: invalid value encountered in cast
+  return x.astype(dtype, copy=copy, casting=casting)
+
+2025-03-18 21:35:53,453:INFO:Initializing load_model()
+2025-03-18 21:35:53,453:INFO:load_model(model_name=../Model/artifacts/modelo_final, platform=None, authentication=None, verbose=True)

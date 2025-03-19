@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Model/mlruns/315287349870592405/933c080cef044dc49661c837dcd21831/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '315287349870592405'
+lifecycle_stage: active
+run_id: 933c080cef044dc49661c837dcd21831
+run_name: Session Initialized bdda
+run_uuid: 933c080cef044dc49661c837dcd21831
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742343593545
+status: 1
+tags: []
+user_id: Ian

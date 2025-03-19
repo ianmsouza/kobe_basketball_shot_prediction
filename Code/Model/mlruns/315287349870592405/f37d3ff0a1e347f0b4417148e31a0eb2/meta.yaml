@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Model/mlruns/315287349870592405/f37d3ff0a1e347f0b4417148e31a0eb2/artifacts
+end_time: 1742342180212
+entry_point_name: ''
+experiment_id: '315287349870592405'
+lifecycle_stage: active
+run_id: f37d3ff0a1e347f0b4417148e31a0eb2
+run_name: Treinamento_Logistica
+run_uuid: f37d3ff0a1e347f0b4417148e31a0eb2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742342176710
+status: 4
+tags: []
+user_id: Ian

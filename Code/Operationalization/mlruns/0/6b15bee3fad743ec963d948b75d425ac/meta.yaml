@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/0/6b15bee3fad743ec963d948b75d425ac/artifacts
+end_time: 1742344553752
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6b15bee3fad743ec963d948b75d425ac
+run_name: PrevisaoProducao
+run_uuid: 6b15bee3fad743ec963d948b75d425ac
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742344553710
+status: 3
+tags: []
+user_id: Ian

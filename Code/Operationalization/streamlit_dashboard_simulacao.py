@@ -6,9 +6,10 @@ from matplotlib.patches import Patch
 from PIL import Image
 from datetime import datetime
 import os
-
-# Imports específicos da aba Simulação
+import mlflow
+import tempfile
 from pycaret.classification import load_model
+from sklearn.metrics import log_loss, f1_score
 
 # Configurações da página
 st.set_page_config(page_title="Dashboard Kobe Bryant", layout="wide")
@@ -26,7 +27,7 @@ if aba == "Simulação":
     st.title("🏀 Simulador de Arremessos - Kobe Bryant")
 
     # Carrega o modelo treinado
-    model = load_model("../../Data/Modeling/modelo_final")  # ajuste caminho se necessário
+    model = load_model("../../Data/Modeling/modelo_final")
 
     # Interface de entrada
     st.sidebar.header("🎛️ Simule uma Jogada")
@@ -61,7 +62,7 @@ if aba == "Simulação":
         st.markdown("**Variáveis usadas na simulação:**")
         st.dataframe(input_data)
 
-        # Log
+        # Log local (CSV)
         log_path = "../../Data/Logs"
         os.makedirs(log_path, exist_ok=True)
         log_file = os.path.join(log_path, "simulacoes.csv")
@@ -80,6 +81,27 @@ if aba == "Simulação":
         st.subheader("📜 Histórico de Simulações")
         historico = pd.read_csv(log_file)
         st.dataframe(historico.tail(10))
+
+        # Log no MLflow
+        mlflow.set_experiment("PipelineAplicacao")
+        with mlflow.start_run(run_name="StreamlitSimulacao"):
+            mlflow.log_param("lat", lat)
+            mlflow.log_param("lon", lon)
+            mlflow.log_param("minutes_remaining", minutes)
+            mlflow.log_param("period", period)
+            mlflow.log_param("playoffs", playoffs)
+            mlflow.log_param("shot_distance", distance)
+
+            mlflow.log_metric("proba", proba)
+            mlflow.log_metric("prediction", int(pred))
+
+            # Salva a simulação como artefato
+            with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as tmp:
+                temp_path = tmp.name  # armazena caminho antes de fechar
+                log_data.to_csv(temp_path, index=False)
+
+            mlflow.log_artifact(temp_path, artifact_path="simulacoes")
+            os.remove(temp_path)
 
 
 # -------------------

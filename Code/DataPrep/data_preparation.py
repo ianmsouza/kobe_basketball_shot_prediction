@@ -42,6 +42,10 @@ def preparar_dados(caminho_base_dev, caminho_base_prod, caminho_saida):
 
     # Log no MLflow
     logging.info("📊 Registrando parâmetros e métricas no MLflow...")
+
+    # Define o experimento antes de iniciar o run
+    mlflow.set_experiment("PreparacaoDados")
+
     with mlflow.start_run(run_name="PreparacaoDados"):
         mlflow.log_param("test_size", 0.2)
         mlflow.log_metric("train_size", X_train.shape[0])

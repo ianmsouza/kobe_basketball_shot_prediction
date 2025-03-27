@@ -3,16 +3,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 from matplotlib.patches import Patch
+import mlflow
+import tempfile
+import os
 
 # Título do dashboard
 st.title("Localização dos Arremessos - Kobe Bryant")
 
-# Carrega a imagem da quadra
+# Caminhos
 quadra_path = '../../Docs/Imagens/charlotte_key_zone.jpeg'
+dados_path = '../../Data/Raw/dataset_kobe_dev.parquet'
+
+# Carrega a imagem da quadra
 img = Image.open(quadra_path)
 
 # Carrega os dados
-df = pd.read_parquet('../../Data/Raw/dataset_kobe_dev.parquet')
+df = pd.read_parquet(dados_path)
 
 # Filtro para resultado do arremesso
 resultado = st.multiselect(
@@ -53,3 +59,24 @@ legenda = [
 ax.legend(handles=legenda, loc='lower left', title='Resultado do Arremesso')
 
 st.pyplot(fig)
+
+# --------------------------------------
+# 📊 Log no MLflow
+# --------------------------------------
+mlflow.set_experiment("PipelineAplicacao")
+with mlflow.start_run(run_name="StreamlitMapaArremessos"):
+    # Loga os filtros selecionados
+    mlflow.log_param("filtro_resultado", ",".join(resultado))
+    mlflow.log_metric("qtd_dados_filtrados", df_filtrado.shape[0])
+
+    # Salvar gráfico como artefato
+    grafico_path = os.path.join(tempfile.gettempdir(), "mapa_arremessos.png")
+    fig.savefig(grafico_path, bbox_inches="tight")
+    mlflow.log_artifact(grafico_path, artifact_path="figuras")
+
+    # Salvar dataset filtrado como artefato
+    csv_path = os.path.join(tempfile.gettempdir(), "dados_filtrados.csv")
+    df_filtrado.to_csv(csv_path, index=False)
+    mlflow.log_artifact(csv_path, artifact_path="dados")
+
+    st.success("📡 Mapa e dados registrados no MLflow com sucesso ✅")

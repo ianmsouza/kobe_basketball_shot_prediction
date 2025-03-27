@@ -6,6 +6,8 @@ import seaborn as sns
 from pycaret.classification import load_model
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
+import mlflow
+import tempfile
 
 sns.set_style("whitegrid")
 
@@ -76,90 +78,83 @@ with col2:
             plt.ylabel("Real")
             st.pyplot(fig)
 
-            # ------------------------------------------------------------------
-            # Seção comparativa estilo "faça algo assim"
-            # ------------------------------------------------------------------
-            st.subheader("📈 Comparativo de Arremessos do Kobe")
+            # Log no MLflow
+            mlflow.set_experiment("PipelineAplicacao")
+            with mlflow.start_run(run_name="StreamlitDashboardAnalitico"):
+                report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
 
-            # Calcula métricas simples
-            total_arremessos = df.shape[0]
-            acertos_previstos = (df["prediction"] == 1).sum()
-            taxa_acerto = (acertos_previstos / total_arremessos) * 100
+                acuracia = (y_true == y_pred).mean()
+                f1_val = report["1"]["f1-score"] if "1" in report else 0.0
+                recall_val = report["1"]["recall"] if "1" in report else 0.0
+                precision_val = report["1"]["precision"] if "1" in report else 0.0
 
-            # Organiza em duas colunas: métricas (esquerda) e gráfico (direita)
-            met_col, chart_col = st.columns([1, 2])
+                mlflow.log_metric("accuracy", acuracia)
+                mlflow.log_metric("f1_score", f1_val)
+                mlflow.log_metric("recall", recall_val)
+                mlflow.log_metric("precision", precision_val)
 
-            # 1) Coluna de métricas
-            with met_col:
-                st.metric("Total de Arremessos", total_arremessos)
-                st.metric("Acertos Previstos", acertos_previstos)
-                st.metric("Taxa de Acerto (%)", f"{taxa_acerto:.2f}%")
+                # Salvar matriz de confusão como imagem
+                fig_cm, ax_cm = plt.subplots()
+                sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                            xticklabels=["Erro", "Acerto"],
+                            yticklabels=["Erro", "Acerto"], ax=ax_cm)
+                ax_cm.set_xlabel("Predito")
+                ax_cm.set_ylabel("Real")
+                ax_cm.set_title("Matriz de Confusão - Produção")
+                cm_path = os.path.join(tempfile.gettempdir(), "confusion_matrix.png")
+                fig_cm.savefig(cm_path, bbox_inches="tight")
+                mlflow.log_artifact(cm_path, artifact_path="figuras")
+                plt.close(fig_cm)
 
-            # 2) Coluna do gráfico de barras
-            with chart_col:
-                # Monta um DataFrame para o gráfico de barras
-                data_bar = {
-                    "Tipo": ["Acertos Previstos", "Erros Previstos"],
-                    "Quantidade": [acertos_previstos, total_arremessos - acertos_previstos]
-                }
-                df_bar = pd.DataFrame(data_bar)
+                # Salvar base de predições
+                df_path = os.path.join(tempfile.gettempdir(), "df_predicoes.parquet")
+                df.to_parquet(df_path, index=False)
+                mlflow.log_artifact(df_path, artifact_path="dados")
 
-                fig_bar, ax_bar = plt.subplots(figsize=(6, 4))
-                sns.barplot(
-                    data=df_bar,
-                    x="Tipo",
-                    y="Quantidade",
-                    palette="Blues_r"
-                )
-                ax_bar.set_title("Acertos vs. Erros (Preditos)")
-                ax_bar.set_xlabel("")
-                ax_bar.set_ylabel("Quantidade")
-                # Coloca valores acima das barras
-                for i, v in enumerate(df_bar["Quantidade"]):
-                    ax_bar.text(i, v + 0.5, str(v), ha='center', fontweight='bold')
+                # Seção de distribuição de probabilidades
+                if hasattr(model, "predict_proba"):
+                    st.subheader("Distribuição de Probabilidades de Acerto por Classe Real")
+                    feature_cols = list(model.feature_names_in_)
+                    if "shot_made_flag" in feature_cols:
+                        feature_cols.remove("shot_made_flag")
 
-                st.pyplot(fig_bar)
+                    df_features = df[feature_cols].copy()
+                    probas = model.predict_proba(df_features)[:, 1]
+                    df["proba"] = probas
 
-            # ------------------------------------------------------------------
-            # Seção de distribuição de probabilidades (opcional)
-            # ------------------------------------------------------------------
-            if hasattr(model, "predict_proba"):
-                st.subheader("Distribuição de Probabilidades de Acerto por Classe Real")
-                # Cria DataFrame com apenas as features esperadas
-                feature_cols = list(model.feature_names_in_)
-                if "shot_made_flag" in feature_cols:
-                    feature_cols.remove("shot_made_flag")
+                    fig2, ax2 = plt.subplots(figsize=(10, 5))
+                    sns.histplot(
+                        data=df,
+                        x="proba",
+                        hue="shot_made_flag",
+                        bins=30,
+                        kde=True,
+                        palette={0: "salmon", 1: "skyblue"},
+                        stat="count",
+                        alpha=0.6,
+                        multiple="layer",
+                        common_norm=False,
+                        ax=ax2
+                    )
+                    ax2.axvline(x=0.5, color='red', linestyle='--', linewidth=2, label='Limiar 0.5')
+                    ax2.set_xlim([0, 1])
+                    ax2.set_title("Distribuição de Probabilidades de Acerto por Classe Real", fontsize=14)
+                    ax2.set_xlabel("Probabilidade de Acerto Prevista")
+                    ax2.set_ylabel("Frequência")
 
-                df_features = df[feature_cols].copy()
-                # Faz a previsão de probabilidade
-                probas = model.predict_proba(df_features)[:, 1]
-                df["proba"] = probas
+                    handles, labels = ax2.get_legend_handles_labels()
+                    new_labels = ["Erro (0)" if lab == "0" else "Acerto (1)" for lab in labels]
+                    ax2.legend(handles=handles[1:], labels=new_labels[1:], title="Classe Real", loc="upper right")
 
-                fig2, ax2 = plt.subplots(figsize=(10, 5))
-                sns.histplot(
-                    data=df,
-                    x="proba",
-                    hue="shot_made_flag",
-                    bins=30,
-                    kde=True,
-                    palette={0: "salmon", 1: "skyblue"},
-                    stat="count",
-                    alpha=0.6,
-                    multiple="layer",
-                    common_norm=False,
-                    ax=ax2
-                )
-                ax2.axvline(x=0.5, color='red', linestyle='--', linewidth=2, label='Limiar 0.5')
-                ax2.set_xlim([0, 1])
-                ax2.set_title("Distribuição de Probabilidades de Acerto por Classe Real", fontsize=14)
-                ax2.set_xlabel("Probabilidade de Acerto Prevista")
-                ax2.set_ylabel("Frequência")
+                    st.pyplot(fig2)
 
-                handles, labels = ax2.get_legend_handles_labels()
-                new_labels = ["Erro (0)" if lab == "0" else "Acerto (1)" for lab in labels]
-                ax2.legend(handles=handles[1:], labels=new_labels[1:], title="Classe Real", loc="upper right")
+                    # Salvar histograma como artefato
+                    probas_path = os.path.join(tempfile.gettempdir(), "distribuicao_probas.png")
+                    fig2.savefig(probas_path, bbox_inches="tight")
+                    mlflow.log_artifact(probas_path, artifact_path="figuras")
+                    plt.close(fig2)
 
-                st.pyplot(fig2)
+                st.success("📡 Execução registrada no MLflow com sucesso ✅")
 
     else:
         st.warning("⚠️ Arquivo de predições não encontrado. Execute o pipeline primeiro para visualizar os dados.")

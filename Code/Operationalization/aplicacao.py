@@ -38,6 +38,9 @@ def aplicar_modelo(caminho_modelo, caminho_dados_producao, caminho_saida):
     df_prod.to_parquet(output_path)
     logging.info(f"✅ Resultados salvos em {output_path}")
 
+    # Definir o experimento no MLflow
+    mlflow.set_experiment("PipelineAplicacao")
+
     # Registrar métricas se resposta estiver disponível
     if "shot_made_flag" in df_prod.columns:
         valid_idx = df_prod["shot_made_flag"].notna()
@@ -58,6 +61,7 @@ def aplicar_modelo(caminho_modelo, caminho_dados_producao, caminho_saida):
 
             with mlflow.start_run(run_name="PipelineAplicacao"):
                 mlflow.log_metrics(metrics)
+                mlflow.log_artifact(output_path)
         else:
             logging.warning("⚠️ Nenhuma linha com 'shot_made_flag' válida para avaliação.")
     else:

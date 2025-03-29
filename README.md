@@ -487,33 +487,33 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 >
 > **Streamlit - Dashboard - Simulação de arremessos - Modelo Kobe Bryant**
 >
-> ![alt text](image-1.png)
+> ![alt text](/Docs/Imagens/image-1.png)
 >
-> ![alt text](image-3.png)
+> ![alt text](/Docs/Imagens/image-3.png)
 > 
-> ![alt text](image-6.png)
+> ![alt text](/Docs/Imagens/image-6.png)
 > 
 > **Streamlit - Dashboard Analítico - Modelo Kobe Bryant**
 > 
-> ![alt text](image-8.png)
-> ![alt text](image-9.png)
-> ![alt text](image-10.png)
-> ![alt text](image-11.png)
+> ![alt text](/Docs/Imagens/image-8.png)
+> ![alt text](/Docs/Imagens/image-9.png)
+> ![alt text](/Docs/Imagens/image-10.png)
+> ![alt text](/Docs/Imagens/image-11.png)
 > 
 > **MLflow - PreparacaoDados**
 > 
-> ![alt text](image-12.png)
+> ![alt text](/Docs/Imagens/image-12.png)
 > 
 > **MLflow - Treinamento**
 >
-> ![alt text](image-13.png)
-> ![alt text](image-14.png)
+> ![alt text](/Docs/Imagens/image-13.png)
+> ![alt text](/Docs/Imagens/image-14.png)
 > 
 > **MLflow - PipelineAplicacao**
 >
-> ![alt text](image-17.png)
-> ![alt text](image-18.png)
-> ![alt text](image-19.png)
+> ![alt text](/Docs/Imagens/image-17.png)
+> ![alt text](/Docs/Imagens/image-18.png)
+> ![alt text](/Docs/Imagens/image-19.png)
 
 -------
 

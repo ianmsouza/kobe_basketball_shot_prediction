@@ -483,7 +483,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **Streamlit - Dashboard - Mapa de Arremessos - Modelo Kobe Bryant**
 >
-> ![alt text](image-2.png)
+> ![alt text](/Docs/Imagens/image-2.png)
 >
 > **Streamlit - Dashboard - Simulação de arremessos - Modelo Kobe Bryant**
 >

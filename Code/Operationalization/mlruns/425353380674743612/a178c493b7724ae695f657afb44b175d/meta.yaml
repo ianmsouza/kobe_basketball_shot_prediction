@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/425353380674743612/a178c493b7724ae695f657afb44b175d/artifacts
+deleted_time: 1743202099567
+end_time: null
+entry_point_name: ''
+experiment_id: '425353380674743612'
+lifecycle_stage: deleted
+run_id: a178c493b7724ae695f657afb44b175d
+run_name: Treinamento
+run_uuid: a178c493b7724ae695f657afb44b175d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743200744092
+status: 1
+tags: []
+user_id: Ian

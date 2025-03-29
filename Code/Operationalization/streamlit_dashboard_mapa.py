@@ -8,6 +8,7 @@ import tempfile
 import os
 
 # Título do dashboard
+st.set_page_config(page_title="Dashboard - Mapa de Arremessos - Modelo Kobe Bryant", layout="wide")
 st.title("Localização dos Arremessos - Kobe Bryant")
 
 # Caminhos
@@ -47,8 +48,8 @@ ax.scatter(df_filtrado['lon'], df_filtrado['lat'], c=df_filtrado['cor'],
            s=10, alpha=0.7, edgecolors='k', linewidths=0.1)
 
 ax.set_title("Localização dos Arremessos - Kobe Bryant")
-ax.set_xlabel("Longitude")
-ax.set_ylabel("Latitude")
+ax.set_xlabel("Posição Lateral (eixo X)")
+ax.set_ylabel("Distância da Linha de Fundo (eixo Y)")
 
 # Legenda personalizada
 legenda = [
@@ -64,7 +65,7 @@ st.pyplot(fig)
 # 📊 Log no MLflow
 # --------------------------------------
 mlflow.set_experiment("PipelineAplicacao")
-with mlflow.start_run(run_name="StreamlitMapaArremessos"):
+with mlflow.start_run(run_name="Streamlit_Mapa_Arremessos"):
     # Loga os filtros selecionados
     mlflow.log_param("filtro_resultado", ",".join(resultado))
     mlflow.log_metric("qtd_dados_filtrados", df_filtrado.shape[0])

@@ -11,7 +11,7 @@ import tempfile
 
 sns.set_style("whitegrid")
 
-st.set_page_config(page_title="Dashboard - Modelo Kobe Bryant", layout="wide")
+st.set_page_config(page_title="Dashboard Analítico - Modelo Kobe Bryant", layout="wide")
 st.title("📊 Dashboard Analítico - Modelo Kobe Bryant")
 
 # Caminho para modelo e predições
@@ -57,6 +57,38 @@ with col2:
         st.subheader("▶️ Amostra das predições da produção")
         st.dataframe(df.head(10))
 
+        # 📈 Comparativo de Arremessos do Kobe
+        st.subheader("📈 Comparativo de Arremessos do Kobe")
+
+        total_arremessos = len(df)
+        acertos_previstos = int(df["prediction"].sum())
+        erros_previstos = total_arremessos - acertos_previstos
+        taxa_acerto = (acertos_previstos / total_arremessos) * 100
+
+        col_esq, col_dir = st.columns([1, 3])
+
+        with col_esq:
+            st.markdown("<h5 style='color:white;'>Total de Arremessos</h5>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color:white;'>{total_arremessos}</h2>", unsafe_allow_html=True)
+            st.markdown("<h5 style='color:white;'>Acertos Previstos</h5>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color:white;'>{acertos_previstos}</h2>", unsafe_allow_html=True)
+            st.markdown("<h5 style='color:white;'>Taxa de Acerto (%)</h5>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color:white;'>{taxa_acerto:.2f}%</h2>", unsafe_allow_html=True)
+
+        with col_dir:
+            fig_bar, ax_bar = plt.subplots(figsize=(5, 4))
+            sns.barplot(
+                x=["Acertos Previstos", "Erros Previstos"],
+                y=[acertos_previstos, erros_previstos],
+                palette=["#1f77b4", "#aec7e8"],
+                ax=ax_bar
+            )
+            ax_bar.set_ylabel("Quantidade")
+            ax_bar.set_title("Acertos vs. Erros (Preditos)")
+            for i, val in enumerate([acertos_previstos, erros_previstos]):
+                ax_bar.text(i, val + 50, str(val), ha='center', fontweight='bold')
+            st.pyplot(fig_bar)
+
         # Se existir a coluna de flag (real)
         if "shot_made_flag" in df.columns:
             st.subheader("📊 Avaliação do Modelo")
@@ -80,7 +112,7 @@ with col2:
 
             # Log no MLflow
             mlflow.set_experiment("PipelineAplicacao")
-            with mlflow.start_run(run_name="StreamlitDashboardAnalitico"):
+            with mlflow.start_run(run_name="Streamlit_Dashboard_Analitico"):
                 report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
 
                 acuracia = (y_true == y_pred).mean()
@@ -92,6 +124,14 @@ with col2:
                 mlflow.log_metric("f1_score", f1_val)
                 mlflow.log_metric("recall", recall_val)
                 mlflow.log_metric("precision", precision_val)
+                mlflow.log_metric("acertos_previstos", acertos_previstos)
+                mlflow.log_metric("taxa_acerto_percentual", taxa_acerto)
+
+                # Salvar gráfico de acertos vs erros
+                grafico_path = os.path.join(tempfile.gettempdir(), "grafico_acertos_vs_erros.png")
+                fig_bar.savefig(grafico_path, bbox_inches="tight")
+                mlflow.log_artifact(grafico_path, artifact_path="figuras")
+                plt.close(fig_bar)
 
                 # Salvar matriz de confusão como imagem
                 fig_cm, ax_cm = plt.subplots()

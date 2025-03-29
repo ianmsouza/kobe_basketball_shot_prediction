@@ -179,7 +179,10 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **Diagrama**
 > <br><br>
-![Diagrama](/Docs/Diagramas/fluxograma_questao2.png)
+> ![Diagrama](/Docs/Diagramas/fluxograma_questao2.png)
+> <br><br>
+> ![Diagrama](/Docs/Diagramas/Diagrama_do_projeto.drawio.png)
+>
 
 ### **Questão 3)**
 #### Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines descritos anteriormente? A resposta deve abranger os seguintes aspectos: <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Rastreamento de experimentos;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Funções de treinamento;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Monitoramento da saúde do modelo;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Atualização de modelo;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Provisionamento (Deployment).
@@ -446,7 +449,14 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 >
 > Para viabilizar o monitoramento visual da operação do modelo em produção, foi implementado um **dashboard interativo com Streamlit**, localizado no arquivo:
 > 
-> Objetivos do Dashboard
+```
+── Code/
+   └── Operationalization/
+       ├── streamlit_dashboard_mapa.py
+       ├── streamlit_dashboard_simulacao.py
+       └── streamlit_dashboard.py
+```
+> **Objetivos do Dashboard**
 > 
 > - Visualizar a distribuição dos arremessos por posição
 > - Exibir métricas atualizadas de desempenho do modelo, como **Log Loss** e **F1 Score**
@@ -468,8 +478,42 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > - **Heatmap de densidade** para identificar regiões de maior volume de arremessos
 > - Cálculo e exibição das métricas (Log Loss e F1 Score) com base na produção
 > - Layout responsivo com interface amigável e interativa
- 
-
+>
+> ### Print Screen das telas do Dashboard e MLflow
+> 
+> **Streamlit - Dashboard - Mapa de Arremessos - Modelo Kobe Bryant**
+>
+> ![alt text](image-2.png)
+>
+> **Streamlit - Dashboard - Simulação de arremessos - Modelo Kobe Bryant**
+>
+> ![alt text](image-1.png)
+>
+> ![alt text](image-3.png)
+> 
+> ![alt text](image-6.png)
+> 
+> **Streamlit - Dashboard Analítico - Modelo Kobe Bryant**
+> 
+> ![alt text](image-8.png)
+> ![alt text](image-9.png)
+> ![alt text](image-10.png)
+> ![alt text](image-11.png)
+> 
+> **MLflow - PreparacaoDados**
+> 
+> ![alt text](image-12.png)
+> 
+> **MLflow - Treinamento**
+>
+> ![alt text](image-13.png)
+> ![alt text](image-14.png)
+> 
+> **MLflow - PipelineAplicacao**
+>
+> ![alt text](image-17.png)
+> ![alt text](image-18.png)
+> ![alt text](image-19.png)
 
 -------
 

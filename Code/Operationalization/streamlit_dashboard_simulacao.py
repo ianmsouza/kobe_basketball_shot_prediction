@@ -12,7 +12,7 @@ from pycaret.classification import load_model
 from sklearn.metrics import log_loss, f1_score
 
 # Configurações da página
-st.set_page_config(page_title="Dashboard Kobe Bryant", layout="wide")
+st.set_page_config(page_title="Dashboard - Simulação de arremessos - Modelo Kobe Bryant", layout="wide")
 
 # Sidebar de navegação
 aba = st.sidebar.selectbox(
@@ -84,7 +84,7 @@ if aba == "Simulação":
 
         # Log no MLflow
         mlflow.set_experiment("PipelineAplicacao")
-        with mlflow.start_run(run_name="StreamlitSimulacao"):
+        with mlflow.start_run(run_name="Streamlit_Simulacao_Arremessos"):
             mlflow.log_param("lat", lat)
             mlflow.log_param("lon", lon)
             mlflow.log_param("minutes_remaining", minutes)
@@ -191,7 +191,7 @@ elif aba == "Mapa de Arremessos":
             ax=ax
         )
 
-    ax.set_xlabel("Longitude")
-    ax.set_ylabel("Latitude")
+    ax.set_xlabel("Posição Lateral (eixo X)")
+    ax.set_ylabel("Distância da Linha de Fundo (eixo Y)")
 
     st.pyplot(fig)

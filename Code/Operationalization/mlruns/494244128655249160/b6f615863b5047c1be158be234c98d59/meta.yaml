@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/494244128655249160/b6f615863b5047c1be158be234c98d59/artifacts
+deleted_time: 1743374954445
+end_time: null
+entry_point_name: ''
+experiment_id: '494244128655249160'
+lifecycle_stage: deleted
+run_id: b6f615863b5047c1be158be234c98d59
+run_name: Decision Tree Classifier
+run_uuid: b6f615863b5047c1be158be234c98d59
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743370565838
+status: 1
+tags: []
+user_id: Ian

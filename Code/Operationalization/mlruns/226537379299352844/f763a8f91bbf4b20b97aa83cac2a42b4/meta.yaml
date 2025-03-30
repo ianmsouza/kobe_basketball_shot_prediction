@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/226537379299352844/f763a8f91bbf4b20b97aa83cac2a42b4/artifacts
+deleted_time: 1743374982119
+end_time: 1743370364167
+entry_point_name: ''
+experiment_id: '226537379299352844'
+lifecycle_stage: deleted
+run_id: f763a8f91bbf4b20b97aa83cac2a42b4
+run_name: Streamlit_Simulacao_Arremessos
+run_uuid: f763a8f91bbf4b20b97aa83cac2a42b4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743370364061
+status: 3
+tags: []
+user_id: Ian

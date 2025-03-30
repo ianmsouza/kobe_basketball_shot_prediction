@@ -39,6 +39,8 @@ infnet-25E1_3/
 │   │   └── charlotte_key_zone.jpeg
 │   ├── Diagramas/
 │   │   └── fluxograma_questao2.png
+│   ├── Project/
+│   │   └── Log_execucao_pipeline.md
 ├── Modeling/
 │   └── modelo_final.pkl
 ├── requirements.txt
@@ -98,14 +100,15 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 
 | **Métrica**           | **Valor**         |
 |-----------------------|-------------------|
-| Modelo Escolhido      | Árvore de Decisão |
-| Log Loss (Produção)   | 16.34              |
-| F1-Score (Produção)   | 0.34               |
+| Modelo Escolhido      | Regressão Logística |
+| Log Loss (Produção)   | 0.62888            |
+| F1-Score (Produção)   | 0.1645             |
+| F1-Score (Teste)       | 0.5240             |
 
-> 🔍 O modelo de **Árvore de Decisão** foi selecionado para produção por apresentar melhor equilíbrio entre precisão e revocação (F1-Score) em comparação à Regressão Logística, além de oferecer maior interpretabilidade.  
+
+> 🔍 O modelo de **Regressão Logística** foi selecionado para produção por apresentar desempenho mais consistente e estabilidade no ambiente de produção.
 >
-> 📉 Apesar de o Log Loss não ser ideal, o modelo se mostrou aderente à base de produção, com desempenho consistente frente aos dados fora da amostra.
-
+> 📉 Embora o F1 Score em produção esteja abaixo do obtido na base de teste, o modelo demonstrou ser mais confiável do que a árvore de decisão, cujo desempenho caiu drasticamente fora da amostra.
 
 ---
 
@@ -122,10 +125,12 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 ---
 
 ## 📝 Observações finais
-- O pipeline automatizado contempla: preparação → treinamento → aplicação
 - Todos os experimentos e métricas são registrados no MLflow
-- O dashboard com Streamlit possibilita análise e monitoramento visual
-
+- O pipeline automatizado contempla 3 etapas: preparação → treinamento → aplicação
+- Cada etapa registra uma rodada específica no MLflow:
+  - `PreparacaoDados`
+  - `Treinamento`
+  - `PipelineAplicacao`
 
 <br>
 
@@ -166,11 +171,11 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 >
 > **6️⃣ Deploy/Operacionalização**
 > - O modelo escolhido é armazenado e carregado para previsões em produção.
-> - Implementação via **MLFlow, API Flask ou Streamlit**.
+> - Implementação realizada com **MLflow** para versionamento e rastreamento do modelo, e **Streamlit** para dashboards interativos.
 >
 > **7️⃣ Monitoramento do Modelo**
-> - Registro contínuo das métricas em produção.
-> - Avaliação de performance via **MLFlow e Streamlit**.
+> - Monitoramento contínuo da performance do modelo em produção com registro de métricas como **Log Loss** e **F1 Score** no **MLflow**.
+> - Análises visuais e interativas com **Streamlit**, permitindo acompanhamento da saúde do modelo, comparação entre acertos e erros, e detecção de possíveis desvios de comportamento (drift).
 >
 > **8️⃣ Atualização do Modelo**
 > - Estratégias:
@@ -258,10 +263,11 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 | Data/Modeling/modelo_final.pkl | Modelo final treinado e serializado com PyCaret, pronto para ser servido em ambiente produtivo. |
 | Code/DataPrep/preparacao_dados.py | Script responsável pela preparação e limpeza dos dados brutos, incluindo filtragem de colunas e remoção de nulos. |
 | Code/Model/model_training.ipynb | Notebook contendo o pipeline de treinamento dos modelos, registro no MLflow e avaliação de métricas. |
-| Code/Operationalization/app.py | Script para operacionalização do modelo via API local, permitindo inferência externa. |
+| Code/Operationalization/aplicacao.py | Script para operacionalização do modelo via API local, permitindo inferência externa. |
 | Code/Operationalization/streamlit_dashboard.py | Dashboard desenvolvido em Streamlit para visualização de métricas e monitoramento do modelo em produção. |
 | Code/Operationalization/streamlit_dashboard_simulacao.py | Dashboard desenvolvido em Streamlit para simulações e mapa de Arremesso. |
 | Code/Operationalization/streamlit_dashboard_mapa.py | Dashboard desenvolvido em Streamlit da localização dos arremessos - Kobe Bryant. |
+| Data/Logs/simulacoes.csv | Histórico das simulações realizadas no dashboard interativo de simulação desenvolvido com Streamlit. |
 
 ### **Questão 5)**
 #### Implemente o pipeline de processamento de dados com o mlflow, rodada (run) com o nome "PreparacaoDados":<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Os dados devem estar localizados em "/data/raw/dataset_kobe_dev.parquet" e "/data/raw/dataset_kobe_prod.parquet"<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b.Observe que há dados faltantes na base de dados! As linhas que possuem dados faltantes devem ser desconsideradas. Para esse exercício serão apenas consideradas as colunas:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i. lat<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii. lng<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iii. minutes remaining<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iv. period<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v. playoffs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi. shot_distance<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A variável shot_made_flag será seu alvo, onde 0 indica que Kobe errou e 1 que a cesta foi realizada. O dataset resultante será armazenado na pasta "/data/processed/data_filtered.parquet". Ainda sobre essa seleção, qual a dimensão resultante do dataset?<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vii. Separe os dados em treino (80%) e teste (20 %) usando uma escolha aleatória e estratificada. Armazene os datasets resultantes em "/Data/processed/base_{train|test}.parquet . Explique como a escolha de treino e teste afetam o resultado do modelo final. Quais estratégias ajudam a minimizar os efeitos de viés de dados.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; viii. Registre os parâmetros (% teste) e métricas (tamanho de cada base) no MlFlow
@@ -285,8 +291,8 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > Linhas com qualquer valor nulo nessas colunas foram removidas, como etapa de limpeza obrigatória. Após essa filtragem, o dataset foi salvo em: `/data/processed/data_filtered.parquet`
 >
->A dimensão resultante do dataset após o filtro foi:
-> - **11.402 linhas**
+> A dimensão resultante do dataset após o filtro foi:
+> - **20.285 linhas**
 > - **7 colunas**
 >
 > Essa versão processada dos dados foi registrada no MLflow na rodada chamada `"PreparacaoDados"`, junto com os parâmetros e métricas utilizadas.
@@ -309,15 +315,15 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 📊 Registro no MLflow:
 > 
 > Durante a etapa `"PreparacaoDados"`, registramos os seguintes parâmetros e métricas no MLflow:
-> 
-> - **Parâmetro**<br>
->   `test_size`: 0.2
-> 
-> - **Métricas** <br>
->  `Total filtrado`: 20.285 linhas (dataset_kobe_dev.parquet após limpeza) <br>
->  `Base de treino`: 16.228 linhas (antes de split na PyCaret) <br>
->  `Train (PyCaret)`: 11.359 linhas<br>
->  `Test (PyCaret)`: 4.869 linhas<br>
+>- **Parâmetro**
+>  <br>`test_size`: 0.2
+>
+>- **Métricas**
+>  <br>`Total filtrado (dados limpos)`: 20.285 linhas e 7 colunas
+>  <br>`Base de treino`: 16.228 linhas (80%)
+>  <br>`Base de teste`: 4.057 linhas (20%)
+>  <br>`Train (PyCaret após split interno)`: 11.359 linhas
+>  <br>`Test (PyCaret após split interno)`: 4.869 linhas
 > 
 > Essas informações são importantes para rastreabilidade do experimento e ajudam na reprodutibilidade do pipeline ao longo do tempo.
 > 
@@ -343,7 +349,8 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > Essa métrica foi registrada no MLflow com a tag `"log_loss_lr"`.
 > 
 > 🎯 Resultado da regressão logística:
-> - **Log Loss (teste)**: `~0.66` (valor real pode ser obtido no MLflow)
+> - **Log Loss (teste)**: `0.6785` (valor real pode ser obtido no MLflow)
+> - **F1 Score (teste)**: `0.5129`
 > - **F1 Score médio (cross-val)**: `0.5240`
 > 
 > **c. Árvore de Decisão com PyCaret**
@@ -353,8 +360,9 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > **d. Registro das métricas – Árvore de Decisão**
 > 
 > Para o modelo de árvore de decisão, foram registradas as seguintes métricas no MLflow:
-> - **Log Loss (teste)**: `~0.65`
-> - **F1 Score médio (cross-val)**: `0.5392`
+> - **Log Loss (teste)**: `0.6903`
+> - **F1 Score (teste)**: `0.1072`
+> - **F1 Score (cross-validation)**: `0.5392`
 > 
 > As métricas foram registradas com as tags:
 > - `"log_loss_dt"`
@@ -362,14 +370,21 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **e. Escolha do modelo final**
 > 
-> O modelo selecionado para uso em produção foi a **árvore de decisão**, pelos seguintes motivos:
-> 
-> - Obteve **F1 Score superior** à regressão logística (0.5392 vs. 0.5240).
-> - Apesar de ter um desempenho de log loss semelhante, a árvore apresenta uma estrutura mais interpretável e com melhor capacidade de modelar **relações não-lineares**.
-> - Como estamos lidando com um problema de classificação binária com possíveis padrões espaciais e contextuais (posição na quadra, playoffs, tempo restante), uma árvore de decisão tende a se adaptar melhor a essas regras implícitas.
+> O modelo selecionado para uso em produção foi a **regressão logística**, pelos seguintes motivos:
+>
+> - Obteve **comportamento mais estável** na base de produção.
+> - Apresentou **melhor log loss** no teste (0.6785).
+> - Mesmo com F1-Score modesto (0.1645 em produção), superou a árvore, que apresentou valores muito baixos (F1 ≈ 0.1072 e depois ≈ 0.09).
+> - É um modelo mais robusto e generalizável, o que é desejável para operação contínua.
 > 
 > O modelo final foi salvo como `modelo_final.pkl` na pasta `/data/modeling/`, e a rodada de treinamento foi registrada no MLflow com o nome `"Treinamento"`.
 > 
+| Modelo              | Log Loss | F1 Score |
+|---------------------|----------|----------|
+| Regressão Logística | 0.62888  | 0.1645   |
+| Árvore de Decisão   | 0.6903   | 0.1072   |
+![Pipeline Status](https://img.shields.io/badge/pipeline-success-brightgreen)
+
 
 ### **Questão 7)**
 #### Registre o modelo de classificação e o sirva através do MLFlow (ou como uma API local, ou embarcando o modelo na aplicação). Desenvolva um pipeline de aplicação (aplicacao.py) para carregar a base de produção (/data/raw/dataset_kobe_prod.parquet) e aplicar o modelo. Nomeie a rodada (run) do mlflow como “PipelineAplicacao” e publique, tanto uma tabela com os resultados obtidos (artefato como .parquet), quanto log as métricas do novo log loss e f1_score do modelo.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.O modelo é aderente a essa nova base? O que mudou entre uma base e outra? Justifique.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b.Descreva como podemos monitorar a saúde do modelo no cenário com e sem a disponibilidade da variável resposta para o modelo em operação.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.Descreva as estratégias reativa e preditiva de retreinamento para o modelo em operação.
@@ -381,7 +396,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > O pipeline de aplicação foi implementado no arquivo `aplicacao.py` (também acessado via Streamlit como `streamlit_dashboard_simulacao.py`).  
 > Ele realiza as seguintes etapas:
 > 
-> - Carrega o modelo final salvo (árvore de decisão).
+> - Carrega o modelo final salvo (**regressão logística**).
 > - Lê a base de produção em `/data/raw/dataset_kobe_prod.parquet`.
 > - Aplica o mesmo pré-processamento realizado na base de desenvolvimento.
 > - Gera as predições.
@@ -394,7 +409,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > O modelo demonstrou **aderência parcial** à base de produção.  
 > Embora a estrutura das colunas seja a mesma, observou-se uma **diferença no padrão de distribuição** de algumas variáveis, como `shot_distance` e `minutes_remaining`.
 > 
-> Além disso, a base de produção apresenta um **F1 Score de aproximadamente 0.3378**, bem inferior ao da base de teste da fase de treinamento, indicando **possível mudança de distribuição (concept drift)**.
+> Além disso, a base de produção apresenta um **F1 Score de aproximadamente 0.1645**, bem inferior ao da base de teste da fase de treinamento, indicando **possível mudança de distribuição (concept drift)**.
 > 
 > Essa diferença sugere que a base de produção pode conter:
 > - Dados de uma etapa final da carreira do jogador.
@@ -414,8 +429,10 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > - Usar ferramentas como MLflow ou dashboards em Streamlit.
 > 
 > ❓ Quando a variável resposta **não está disponível**:
-> 
-> - Monitorar **métricas de confiança das predições** (ex: média das probabilidades).
+>
+> - Monitorar **métricas indiretas** como:
+>   - Confiança nas predições (ex: média e desvio padrão das probabilidades da classe positiva)
+>   - Frequência de classes previstas (ex: proporção entre 0 e 1 nas predições)
 > - Verificar **mudanças na distribuição das features** (ex: `shot_distance`, `period`) ao longo do tempo.
 > - Usar **métodos de detecção de drift** como:
 >   - KS Test, PSI (Population Stability Index)
@@ -472,7 +489,11 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > 🛠️ Funcionalidades Implementadas
 > 
-> - Leitura automática da base processada: `data/processed/predictions_prod.parquet`
+> - Leitura automática da base processada: `Data/Processed/predictions_prod.parquet`.
+> - Cada dashboard atende a um propósito específico:
+>   - `streamlit_dashboard_mapa.py`: visualização dos arremessos na quadra
+>   - `streamlit_dashboard_simulacao.py`: simulação e teste de predições
+>   - `streamlit_dashboard.py`: painel analítico geral com métricas agregadas
 > - Filtros com Streamlit (`slider`, `checkboxes`) para refinar visualizações
 > - Gráfico de dispersão com acertos e erros de arremessos sobre o mapa da quadra
 > - **Heatmap de densidade** para identificar regiões de maior volume de arremessos
@@ -483,37 +504,43 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **Streamlit - Dashboard - Mapa de Arremessos - Modelo Kobe Bryant**
 >
-> ![alt text](/Docs/Imagens/image-2.png)
+> ![alt text](/Docs/Imagens/image_dashboard_mapa_arremessos_parte1.png)
 >
 > **Streamlit - Dashboard - Simulação de arremessos - Modelo Kobe Bryant**
 >
-> ![alt text](/Docs/Imagens/image-1.png)
+> ![alt text](/Docs/Imagens/image_dashboard_simulacao_arremessos_parte1.png)
 >
-> ![alt text](/Docs/Imagens/image-3.png)
+> ![alt text](/Docs/Imagens/image_dashboard_simulacao_arremessos_parte2.png)
 > 
-> ![alt text](/Docs/Imagens/image-6.png)
+> ![alt text](/Docs/Imagens/image_dashboard_simulacao_arremessos_parte3.png)
 > 
 > **Streamlit - Dashboard Analítico - Modelo Kobe Bryant**
 > 
-> ![alt text](/Docs/Imagens/image-8.png)
-> ![alt text](/Docs/Imagens/image-9.png)
-> ![alt text](/Docs/Imagens/image-10.png)
-> ![alt text](/Docs/Imagens/image-11.png)
-> 
+> ![alt text](/Docs/Imagens/image_dashboard_analitico_parte1.png)
+>
+> ![alt text](/Docs/Imagens/image_dashboard_analitico_parte2.png)
+>
+> ![alt text](/Docs/Imagens/image_dashboard_analitico_parte3.png)
+>
+> ![alt text](/Docs/Imagens/image_dashboard_analitico_parte4.png)
+>
 > **MLflow - PreparacaoDados**
 > 
-> ![alt text](/Docs/Imagens/image-12.png)
+> ![alt text](/Docs/Imagens/image_mlflow_PreparacaoDados.png)
 > 
 > **MLflow - Treinamento**
 >
-> ![alt text](/Docs/Imagens/image-13.png)
-> ![alt text](/Docs/Imagens/image-14.png)
+> ![alt text](/Docs/Imagens/image_mlflow_Treinamento_parte1.png)
+>
+> ![alt text](/Docs/Imagens/image_mlflow_Treinamento_parte2.png)
 > 
 > **MLflow - PipelineAplicacao**
 >
-> ![alt text](/Docs/Imagens/image-17.png)
-> ![alt text](/Docs/Imagens/image-18.png)
-> ![alt text](/Docs/Imagens/image-19.png)
+> ![alt text](/Docs/Imagens/image_mlflow_PipelineAplicacao_parte1.png)
+>
+> ![alt text](/Docs/Imagens/image_mlflow_PipelineAplicacao_parte2.png)
+>
+> ![alt text](/Docs/Imagens/image_mlflow_PipelineAplicacao_parte3.png)
 
 -------
 

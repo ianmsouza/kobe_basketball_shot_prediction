@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/494244128655249160/41c8e34b399344d49c435517e9dcad82/artifacts
+deleted_time: 1743374914850
+end_time: null
+entry_point_name: ''
+experiment_id: '494244128655249160'
+lifecycle_stage: deleted
+run_id: 41c8e34b399344d49c435517e9dcad82
+run_name: Session Initialized 117d
+run_uuid: 41c8e34b399344d49c435517e9dcad82
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743370557515
+status: 1
+tags: []
+user_id: Ian

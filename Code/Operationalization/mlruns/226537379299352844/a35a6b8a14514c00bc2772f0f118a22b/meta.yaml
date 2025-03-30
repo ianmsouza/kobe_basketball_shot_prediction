@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/226537379299352844/a35a6b8a14514c00bc2772f0f118a22b/artifacts
+end_time: 1743377782773
+entry_point_name: ''
+experiment_id: '226537379299352844'
+lifecycle_stage: active
+run_id: a35a6b8a14514c00bc2772f0f118a22b
+run_name: StreamlitDashboardAnalitico
+run_uuid: a35a6b8a14514c00bc2772f0f118a22b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743377782727
+status: 4
+tags: []
+user_id: Ian

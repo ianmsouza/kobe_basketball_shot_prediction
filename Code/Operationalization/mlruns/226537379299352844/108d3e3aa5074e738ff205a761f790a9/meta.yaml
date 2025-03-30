@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/226537379299352844/108d3e3aa5074e738ff205a761f790a9/artifacts
+end_time: 1743377087700
+entry_point_name: ''
+experiment_id: '226537379299352844'
+lifecycle_stage: active
+run_id: 108d3e3aa5074e738ff205a761f790a9
+run_name: StreamlitMapaArremessos
+run_uuid: 108d3e3aa5074e738ff205a761f790a9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743377087120
+status: 3
+tags: []
+user_id: Ian

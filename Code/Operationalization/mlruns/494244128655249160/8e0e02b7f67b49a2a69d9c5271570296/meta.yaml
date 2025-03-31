@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/494244128655249160/8e0e02b7f67b49a2a69d9c5271570296/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '494244128655249160'
+lifecycle_stage: active
+run_id: 8e0e02b7f67b49a2a69d9c5271570296
+run_name: Logistic Regression
+run_uuid: 8e0e02b7f67b49a2a69d9c5271570296
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743378625003
+status: 1
+tags: []
+user_id: Ian

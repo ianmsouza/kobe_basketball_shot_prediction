@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/226537379299352844/429ef3e22a69480497683ba55e483cdd/artifacts
+end_time: 1743463740438
+entry_point_name: ''
+experiment_id: '226537379299352844'
+lifecycle_stage: active
+run_id: 429ef3e22a69480497683ba55e483cdd
+run_name: StreamlitSimulacao
+run_uuid: 429ef3e22a69480497683ba55e483cdd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743463740343
+status: 3
+tags: []
+user_id: Ian

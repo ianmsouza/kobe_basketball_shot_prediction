@@ -1,3 +1,14 @@
+"""
+Dashboard Analítico Streamlit para avaliação do modelo de classificação dos arremessos do Kobe Bryant.
+
+Funcionalidades:
+- Visualização de amostras de predições.
+- Avaliação de métricas: Accuracy, F1 Score, Recall, Precision.
+- Matriz de confusão.
+- Distribuição das probabilidades previstas.
+- Registro completo no MLflow com gráficos, métricas e artefatos.
+"""
+
 import streamlit as st
 import pandas as pd
 import os
@@ -9,19 +20,21 @@ import numpy as np
 import mlflow
 import tempfile
 
+# Estilo visual
 sns.set_style("whitegrid")
 
+# Configuração da página
 st.set_page_config(page_title="Dashboard Analítico - Modelo Kobe Bryant", layout="wide")
 st.title("📊 Dashboard Analítico - Modelo Kobe Bryant")
 
-# Caminho para modelo e predições
+# Caminhos dos arquivos
 caminho_predicoes = "../../Data/Processed/predictions_prod.parquet"
 caminho_modelo = "../../Data/Modeling/modelo_final"
 
 # Carrega o modelo
 model = load_model(caminho_modelo)
 
-# Layout principal com colunas
+# Layout com duas colunas
 col1, col2 = st.columns([1, 2])
 
 with col1:
@@ -50,14 +63,13 @@ with col2:
     - Explorar a distribuição de probabilidades previstas
     """)
 
-    # Verifica se o arquivo de predições existe
     if os.path.exists(caminho_predicoes):
         df = pd.read_parquet(caminho_predicoes)
 
         st.subheader("▶️ Amostra das predições da produção")
         st.dataframe(df.head(10))
 
-        # 📈 Comparativo de Arremessos do Kobe
+        # Comparativo de acertos e erros
         st.subheader("📈 Comparativo de Arremessos do Kobe")
 
         total_arremessos = len(df)
@@ -66,7 +78,6 @@ with col2:
         taxa_acerto = (acertos_previstos / total_arremessos) * 100
 
         col_esq, col_dir = st.columns([1, 3])
-
         with col_esq:
             st.markdown("<h5 style='color:white;'>Total de Arremessos</h5>", unsafe_allow_html=True)
             st.markdown(f"<h2 style='color:white;'>{total_arremessos}</h2>", unsafe_allow_html=True)
@@ -89,7 +100,7 @@ with col2:
                 ax_bar.text(i, val + 50, str(val), ha='center', fontweight='bold')
             st.pyplot(fig_bar)
 
-        # Se existir a coluna de flag (real)
+        # Avaliação com variável real
         if "shot_made_flag" in df.columns:
             st.subheader("📊 Avaliação do Modelo")
             y_true = df["shot_made_flag"].dropna()
@@ -99,22 +110,19 @@ with col2:
             report_df = pd.DataFrame(report).transpose()
             st.dataframe(report_df.style.format("{:.2f}"))
 
-            # Matriz de confusão
             st.subheader("🔢 Matriz de Confusão")
             cm = confusion_matrix(y_true, y_pred)
-            fig, ax = plt.subplots()
+            fig_cm, ax_cm = plt.subplots()
             sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
                         xticklabels=["Erro", "Acerto"],
-                        yticklabels=["Erro", "Acerto"], ax=ax)
+                        yticklabels=["Erro", "Acerto"], ax=ax_cm)
             plt.xlabel("Predito")
             plt.ylabel("Real")
-            st.pyplot(fig)
+            st.pyplot(fig_cm)
 
             # Log no MLflow
             mlflow.set_experiment("PipelineAplicacao")
             with mlflow.start_run(run_name="Streamlit_Dashboard_Analitico"):
-                report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
-
                 acuracia = (y_true == y_pred).mean()
                 f1_val = report["1"]["f1-score"] if "1" in report else 0.0
                 recall_val = report["1"]["recall"] if "1" in report else 0.0
@@ -127,33 +135,27 @@ with col2:
                 mlflow.log_metric("acertos_previstos", acertos_previstos)
                 mlflow.log_metric("taxa_acerto_percentual", taxa_acerto)
 
-                # Salvar gráfico de acertos vs erros
+                # Salva gráfico de barras
                 grafico_path = os.path.join(tempfile.gettempdir(), "grafico_acertos_vs_erros.png")
                 fig_bar.savefig(grafico_path, bbox_inches="tight")
                 mlflow.log_artifact(grafico_path, artifact_path="figuras")
                 plt.close(fig_bar)
 
-                # Salvar matriz de confusão como imagem
-                fig_cm, ax_cm = plt.subplots()
-                sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
-                            xticklabels=["Erro", "Acerto"],
-                            yticklabels=["Erro", "Acerto"], ax=ax_cm)
-                ax_cm.set_xlabel("Predito")
-                ax_cm.set_ylabel("Real")
-                ax_cm.set_title("Matriz de Confusão - Produção")
+                # Salva matriz de confusão
                 cm_path = os.path.join(tempfile.gettempdir(), "confusion_matrix.png")
                 fig_cm.savefig(cm_path, bbox_inches="tight")
                 mlflow.log_artifact(cm_path, artifact_path="figuras")
                 plt.close(fig_cm)
 
-                # Salvar base de predições
+                # Salva base com predições
                 df_path = os.path.join(tempfile.gettempdir(), "df_predicoes.parquet")
                 df.to_parquet(df_path, index=False)
                 mlflow.log_artifact(df_path, artifact_path="dados")
 
-                # Seção de distribuição de probabilidades
+                # Distribuição de probabilidades
                 if hasattr(model, "predict_proba"):
                     st.subheader("Distribuição de Probabilidades de Acerto por Classe Real")
+
                     feature_cols = list(model.feature_names_in_)
                     if "shot_made_flag" in feature_cols:
                         feature_cols.remove("shot_made_flag")
@@ -188,7 +190,7 @@ with col2:
 
                     st.pyplot(fig2)
 
-                    # Salvar histograma como artefato
+                    # Salva gráfico no MLflow
                     probas_path = os.path.join(tempfile.gettempdir(), "distribuicao_probas.png")
                     fig2.savefig(probas_path, bbox_inches="tight")
                     mlflow.log_artifact(probas_path, artifact_path="figuras")

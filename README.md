@@ -65,14 +65,20 @@ conda env create -f environment.yml
 
 ### 2. Rodar o pipeline completo:
 ```bash
+# Executar todas as etapas em sequência
 python Code/Operationalization/main_pipeline.py
 ```
 
 ### 3. Rodar o dashboard:
 ```bash
-streamlit run Code/Operationalization/streamlit_dashboard_mapa.py
-streamlit run Code/Operationalization/streamlit_dashboard_simulacao.py
+# Dashboard analítico com métricas e gráficos
 streamlit run Code/Operationalization/streamlit_dashboard.py
+
+# Mapa interativo dos arremessos
+streamlit run Code/Operationalization/streamlit_dashboard_mapa.py
+
+# Simulador de jogadas
+streamlit run Code/Operationalization/streamlit_dashboard_simulacao.py
 ```
 
 ### 4. Ver o MLflow (opcional):
@@ -101,10 +107,8 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 | **Métrica**           | **Valor**         |
 |-----------------------|-------------------|
 | Modelo Escolhido      | Regressão Logística |
-| Log Loss (Produção)   | 0.62888            |
+| Log Loss (Produção)   | 0.6289            |
 | F1-Score (Produção)   | 0.1645             |
-| F1-Score (Teste)       | 0.5240             |
-
 
 > 🔍 O modelo de **Regressão Logística** foi selecionado para produção por apresentar desempenho mais consistente e estabilidade no ambiente de produção.
 >

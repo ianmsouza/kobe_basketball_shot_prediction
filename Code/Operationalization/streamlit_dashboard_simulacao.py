@@ -1,4 +1,16 @@
-import numpy as np  # necessário para heatmap
+"""
+Dashboard Streamlit para:
+1. Simulação de arremessos do Kobe Bryant com entrada manual de dados;
+2. Visualização espacial dos arremessos históricos com heatmap e pontos coloridos.
+
+Funcionalidades:
+- Entrada de dados interativa para prever acerto ou erro de arremesso;
+- Visualização de mapa com base em latitude/longitude;
+- Histórico de simulações salvas localmente;
+- Registro de simulações e gráficos no MLflow.
+"""
+
+import numpy as np
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -11,27 +23,27 @@ import tempfile
 from pycaret.classification import load_model
 from sklearn.metrics import log_loss, f1_score
 
-# Configurações da página
+# Configuração da página
 st.set_page_config(page_title="📊 Dashboard - Simulação de Arremessos - Modelo Kobe Bryant", layout="wide")
 
-# Sidebar de navegação
+# Navegação por abas
 aba = st.sidebar.selectbox(
     "Selecione a visualização:",
     ["Simulação", "Mapa de Arremessos"]
 )
 
-# -------------------
-# ABA: SIMULAÇÃO
-# -------------------
+# -----------------------------
+# ABA: SIMULAÇÃO INTERATIVA
+# -----------------------------
 if aba == "Simulação":
     st.title("🏀 Simulador de Arremessos - Kobe Bryant")
 
-    # Carrega o modelo treinado
+    # Carrega modelo treinado
     model = load_model("../../Data/Modeling/modelo_final")
 
-    # Interface de entrada
     st.sidebar.header("🎛️ Simule uma Jogada")
 
+    # Inputs do usuário
     lat = st.sidebar.slider("Latitude (lat)", min_value=33.5, max_value=34.0, step=0.01, value=33.93)
     lon = st.sidebar.slider("Longitude (lon)", min_value=-118.5, max_value=-118.0, step=0.01, value=-118.05)
     minutes = st.sidebar.slider("Minutos Restantes", min_value=0, max_value=11, step=1, value=5)
@@ -62,7 +74,7 @@ if aba == "Simulação":
         st.markdown("**Variáveis usadas na simulação:**")
         st.dataframe(input_data)
 
-        # Log local (CSV)
+        # Salva localmente simulação
         log_path = "../../Data/Logs"
         os.makedirs(log_path, exist_ok=True)
         log_file = os.path.join(log_path, "simulacoes.csv")
@@ -82,7 +94,7 @@ if aba == "Simulação":
         historico = pd.read_csv(log_file)
         st.dataframe(historico.tail(10))
 
-        # Log no MLflow
+        # Registro no MLflow
         mlflow.set_experiment("PipelineAplicacao")
         with mlflow.start_run(run_name="StreamlitSimulacao"):
             mlflow.log_param("lat", lat)
@@ -95,42 +107,37 @@ if aba == "Simulação":
             mlflow.log_metric("proba", proba)
             mlflow.log_metric("prediction", int(pred))
 
-            # Salva a simulação como artefato
+            # Salva simulação como artefato temporário
             with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as tmp:
-                temp_path = tmp.name  # armazena caminho antes de fechar
+                temp_path = tmp.name
                 log_data.to_csv(temp_path, index=False)
 
             mlflow.log_artifact(temp_path, artifact_path="simulacoes")
             os.remove(temp_path)
 
-
-# -------------------
+# -----------------------------
 # ABA: MAPA DE ARREMESSOS
-# -------------------
+# -----------------------------
 elif aba == "Mapa de Arremessos":
     st.title("📍 Localização dos Arremessos - Kobe Bryant")
 
-    # Caminho para imagem de fundo
+    # Caminhos dos arquivos
     quadra_path = '../../Docs/Imagens/charlotte_key_zone.jpeg'
+    dados_path = '../../Data/Raw/dataset_kobe_dev.parquet'
+
     try:
         img = Image.open(quadra_path)
-    except FileNotFoundError:
-        st.error(f"Imagem não encontrada em: {quadra_path}")
-        st.stop()
-
-    dados_path = '../../Data/Raw/dataset_kobe_dev.parquet'
-    try:
         df = pd.read_parquet(dados_path)
-    except FileNotFoundError:
-        st.error(f"Dados não encontrados em: {dados_path}")
+    except FileNotFoundError as e:
+        st.error(str(e))
         st.stop()
 
-    # Mapeamento
+    # Mapeamento para visualização
     mapa_valores = {1: 'Cesta', 0: 'Erro', None: 'Desconhecido'}
     df['resultado'] = df['shot_made_flag'].map(mapa_valores)
     df['cor'] = df['shot_made_flag'].map({1: 'green', 0: 'red'}).fillna('black')
 
-    # 🎛️ Controles laterais
+    # Filtros laterais
     st.sidebar.header("Filtros de Visualização")
 
     resultado = st.sidebar.multiselect(
@@ -149,7 +156,7 @@ elif aba == "Mapa de Arremessos":
         ["Pontos coloridos", "Heatmap"]
     )
 
-    # Aplica os filtros
+    # Aplica filtros
     df_filtrado = df[
         (df['resultado'].isin(resultado)) &
         (df['shot_distance'] <= distancia_max)
@@ -159,7 +166,7 @@ elif aba == "Mapa de Arremessos":
         st.warning("Nenhum dado disponível com os filtros selecionados.")
         st.stop()
 
-    # 📊 Gráfico
+    # Criação do gráfico
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.set_xlim(-118.5, -118.05)
     ax.set_ylim(33.5, 34.1)
@@ -177,7 +184,6 @@ elif aba == "Mapa de Arremessos":
         ax.legend(handles=legenda, loc='lower left', title='Resultado do Arremesso')
     else:
         import seaborn as sns
-
         ax.set_title("Zonas Quentes de Arremesso")
         sns.kdeplot(
             x=df_filtrado['lon'],
@@ -193,5 +199,4 @@ elif aba == "Mapa de Arremessos":
 
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
-
     st.pyplot(fig)

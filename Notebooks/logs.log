@@ -1,0 +1,100 @@
+2025-03-31 21:48:27,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:48:27,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:48:27,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:48:27,918:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:48:28,976:INFO:Initializing load_model()
+2025-03-31 21:48:28,976:INFO:load_model(model_name=../Data/Modeling/modelo_final.pkl, platform=None, authentication=None, verbose=True)
+2025-03-31 21:49:05,042:INFO:Initializing load_model()
+2025-03-31 21:49:05,042:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:49:05,095:INFO:Initializing predict_model()
+2025-03-31 21:49:05,095:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x00000232CB777670>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['lat', 'lon', 'minutes_remaining',
+                                             'period', 'playoffs',
+                                             'shot_distance'],
+                                    transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=[],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5,
+                                        estimator=LogisticRegression(max_iter=1000,
+                                                                     random_state=42)))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x00000232CB778DC0>)
+2025-03-31 21:49:05,095:INFO:Checking exceptions
+2025-03-31 21:49:05,095:INFO:Preloading libraries
+2025-03-31 21:49:05,096:INFO:Set up data.
+2025-03-31 21:49:05,098:INFO:Set up index.
+2025-03-31 21:50:17,514:INFO:Initializing load_model()
+2025-03-31 21:50:17,514:INFO:load_model(model_name=../../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:51:59,761:INFO:Initializing load_model()
+2025-03-31 21:51:59,761:INFO:load_model(model_name=../../Data/Modeling/modelo_final.pkl, platform=None, authentication=None, verbose=True)
+2025-03-31 21:52:08,459:INFO:Initializing load_model()
+2025-03-31 21:52:08,459:INFO:load_model(model_name=../../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:52:17,728:INFO:Initializing load_model()
+2025-03-31 21:52:17,728:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:52:24,663:INFO:Initializing load_model()
+2025-03-31 21:52:24,663:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:53:18,414:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:53:18,415:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:53:18,415:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:53:18,415:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-03-31 21:53:19,316:INFO:Initializing load_model()
+2025-03-31 21:53:19,316:INFO:load_model(model_name=../Modeling/modelo_final.pkl, platform=None, authentication=None, verbose=True)
+2025-03-31 21:53:26,905:INFO:Initializing load_model()
+2025-03-31 21:53:26,905:INFO:load_model(model_name=../Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:53:56,291:INFO:Initializing load_model()
+2025-03-31 21:53:56,291:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:53:56,339:INFO:Initializing predict_model()
+2025-03-31 21:53:56,339:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x00000261ACDB7460>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['lat', 'lon', 'minutes_remaining',
+                                             'period', 'playoffs',
+                                             'shot_distance'],
+                                    transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=[],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5,
+                                        estimator=LogisticRegression(max_iter=1000,
+                                                                     random_state=42)))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x00000261FA2E13A0>)
+2025-03-31 21:53:56,339:INFO:Checking exceptions
+2025-03-31 21:53:56,339:INFO:Preloading libraries
+2025-03-31 21:53:56,339:INFO:Set up data.
+2025-03-31 21:53:56,342:INFO:Set up index.
+2025-03-31 21:54:42,200:INFO:Initializing load_model()
+2025-03-31 21:54:42,200:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 21:54:42,207:INFO:Initializing predict_model()
+2025-03-31 21:54:42,207:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x00000261AB602F70>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['lat', 'lon', 'minutes_remaining',
+                                             'period', 'playoffs',
+                                             'shot_distance'],
+                                    transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=[],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5,
+                                        estimator=LogisticRegression(max_iter=1000,
+                                                                     random_state=42)))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x00000261FA2B9F70>)
+2025-03-31 21:54:42,207:INFO:Checking exceptions
+2025-03-31 21:54:42,208:INFO:Preloading libraries
+2025-03-31 21:54:42,208:INFO:Set up data.
+2025-03-31 21:54:42,212:INFO:Set up index.
+2025-03-31 21:58:23,413:INFO:Initializing load_model()
+2025-03-31 21:58:23,413:INFO:load_model(model_name=Data\Modeling\modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 22:00:13,122:INFO:Initializing load_model()
+2025-03-31 22:00:13,123:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 22:00:16,290:INFO:Initializing load_model()
+2025-03-31 22:00:16,290:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-03-31 22:01:12,872:INFO:Initializing load_model()
+2025-03-31 22:01:12,873:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)

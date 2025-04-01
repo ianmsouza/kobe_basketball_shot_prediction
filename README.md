@@ -110,9 +110,9 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 | Log Loss (Produção)   | 0.6289            |
 | F1-Score (Produção)   | 0.1645             |
 
-> 🔍 O modelo de **Regressão Logística** foi selecionado para produção por apresentar desempenho mais consistente e estabilidade no ambiente de produção.
+> 🔍 O modelo de **Regressão Logística** foi selecionado para produção por apresentar **desempenho mais consistente e estabilidade no ambiente de produção**, mesmo com F1-Score modesto.
 >
-> 📉 Embora o F1 Score em produção esteja abaixo do obtido na base de teste, o modelo demonstrou ser mais confiável do que a árvore de decisão, cujo desempenho caiu drasticamente fora da amostra.
+> 📉 A **Árvore de Decisão** apresentou overfitting (F1-Score de 0.1072 em produção), enquanto a regressão logística manteve uma generalização mais robusta.
 
 ---
 
@@ -158,8 +158,14 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 >
 > **2️⃣ Pré-processamento dos Dados**
 > - Remoção de valores ausentes.
+> - **Aplicação de clipping** em features para limitar outliers (ex: `shot_distance` entre 0 e 35 pés).
 > - Seleção das colunas relevantes: `lat`, `lon`, `minutes_remaining`, etc.
 > - Salvamento dos dados tratados em `/Data/Processed`.
+>
+> ℹ️ *Nota:* Os limites de clipping foram definidos com base na distribuição histórica dos dados de treino e em conhecimento de domínio:
+> 
+> - `shot_distance` (0-35 pés): Arremessos além de 35 pés são raros na NBA e geralmente pouco precisos.
+> - `lat` (33.2 - 34.1) e `lon` (-118.52 - -118.02): Coordenadas geográficas da quadra do Staples Center em Los Angeles, onde Kobe jogou a maior parte da carreira.
 >
 > **3️⃣ Separação em Treino/Teste**
 > - Separação estratificada dos dados (80% treino, 20% teste).
@@ -299,6 +305,8 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > - **20.285 linhas**
 > - **7 colunas**
 >
+> As 7 colunas finais foram: `lat`, `lon`, `minutes_remaining`, `period`, `playoffs`, `shot_distance`, `shot_made_flag`.
+>
 > Essa versão processada dos dados foi registrada no MLflow na rodada chamada `"PreparacaoDados"`, junto com os parâmetros e métricas utilizadas.
 > 
 > Separação entre treino e teste com amostragem estratificada<br>
@@ -352,10 +360,14 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > O desempenho do modelo de regressão logística foi avaliado com base na métrica **log loss** utilizando os dados de teste.  
 > Essa métrica foi registrada no MLflow com a tag `"log_loss_lr"`.
 > 
-> 🎯 Resultado da regressão logística:
-> - **Log Loss (teste)**: `0.6785` (valor real pode ser obtido no MLflow)
-> - **F1 Score (teste)**: `0.5129`
-> - **F1 Score médio (cross-val)**: `0.5240`
+> 📊 **Resultados da Regressão Logística:**
+> - **Log Loss (teste):** `0.6785`
+> - **F1 Score (teste):** `0.5129`
+> - **F1 Score (cross-val):** `0.5240`
+> 
+> 📦 **Desempenho em Produção:**
+> - **Log Loss (produção):** `0.6289`
+> - **F1 Score (produção):** `0.1645`
 > 
 > **c. Árvore de Decisão com PyCaret**
 > 
@@ -374,19 +386,23 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **e. Escolha do modelo final**
 > 
-> O modelo selecionado para uso em produção foi a **regressão logística**, pelos seguintes motivos:
->
-> - Obteve **comportamento mais estável** na base de produção.
-> - Apresentou **melhor log loss** no teste (0.6785).
-> - Mesmo com F1-Score modesto (0.1645 em produção), superou a árvore, que apresentou valores muito baixos (F1 ≈ 0.1072 e depois ≈ 0.09).
-> - É um modelo mais robusto e generalizável, o que é desejável para operação contínua.
+> O modelo selecionado para uso em produção foi a **Regressão Logística**, pelos seguintes motivos:
+> 
+> - Apresentou **menor Log Loss em teste** (`0.6785`) e **em produção** (`0.6289`);
+> - Teve **comportamento mais estável** entre treino, teste e produção;
+> - A árvore de decisão apresentou sinais de **overfitting**, com desempenho razoável no treino mas queda significativa nos dados reais;
+> - A regressão logística é um modelo **mais robusto e generalizável**, o que é desejável para operação contínua.
 > 
 > O modelo final foi salvo como `modelo_final.pkl` na pasta `/data/modeling/`, e a rodada de treinamento foi registrada no MLflow com o nome `"Treinamento"`.
-> 
+>
+>
+> **📈 Comparativo Final das Métricas (Produção)**
+>
 | Modelo              | Log Loss | F1 Score |
 |---------------------|----------|----------|
 | Regressão Logística | 0.62888  | 0.1645   |
 | Árvore de Decisão   | 0.6903   | 0.1072   |
+
 ![Pipeline Status](https://img.shields.io/badge/pipeline-success-brightgreen)
 
 
@@ -395,72 +411,27 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 
 > Resposta:
 >
-> Aplicação do modelo
-> 
-> O pipeline de aplicação foi implementado no arquivo `aplicacao.py` (também acessado via Streamlit como `streamlit_dashboard_simulacao.py`).  
-> Ele realiza as seguintes etapas:
-> 
-> - Carrega o modelo final salvo (**regressão logística**).
-> - Lê a base de produção em `/data/raw/dataset_kobe_prod.parquet`.
-> - Aplica o mesmo pré-processamento realizado na base de desenvolvimento.
-> - Gera as predições.
-> - Calcula métricas: **log loss** e **F1 Score** com os dados da produção (caso a variável `shot_made_flag` esteja presente).
-> - Salva os resultados como `/data/processed/predictions_prod.parquet`.
-> - Registra a execução no MLflow com o nome da rodada `"PipelineAplicacao"`.
-> 
-> **a. O modelo é aderente a essa nova base? O que mudou entre uma base e outra?**
-> 
-> O modelo demonstrou **aderência parcial** à base de produção.  
-> Embora a estrutura das colunas seja a mesma, observou-se uma **diferença no padrão de distribuição** de algumas variáveis, como `shot_distance` e `minutes_remaining`.
-> 
-> Além disso, a base de produção apresenta um **F1 Score de aproximadamente 0.1645**, bem inferior ao da base de teste da fase de treinamento, indicando **possível mudança de distribuição (concept drift)**.
-> 
-> Essa diferença sugere que a base de produção pode conter:
-> - Dados de uma etapa final da carreira do jogador.
-> - Contextos táticos distintos.
-> - Ou até partidas com características diferentes (mais jogos de playoff, por exemplo).
-> 
-> **b. Como monitorar a saúde do modelo em produção?**
-> 
-> 📈 Quando a variável resposta está disponível:
-> 
-> - Monitorar métricas de performance como:
->   - **Log Loss**
->   - **F1 Score**
->   - **Acurácia**
-> - Comparar os resultados com os benchmarks da fase de treino/teste.
-> - Visualizar a distribuição das predições e da variável real.
-> - Usar ferramentas como MLflow ou dashboards em Streamlit.
-> 
-> ❓ Quando a variável resposta **não está disponível**:
+> **Implementação:**
 >
-> - Monitorar **métricas indiretas** como:
->   - Confiança nas predições (ex: média e desvio padrão das probabilidades da classe positiva)
->   - Frequência de classes previstas (ex: proporção entre 0 e 1 nas predições)
-> - Verificar **mudanças na distribuição das features** (ex: `shot_distance`, `period`) ao longo do tempo.
-> - Usar **métodos de detecção de drift** como:
->   - KS Test, PSI (Population Stability Index)
->   - DDM (Drift Detection Method)
+> - O modelo foi servido via `aplicacao.py`, que carrega a base de produção, aplica predições com **threshold=0.35** e registra métricas no MLflow.
+>
+> ℹ️ *Nota:* O threshold de 0.35 foi definido após análise da curva ROC e otimização do F1-Score na base de validação. Esse valor equilibra a taxa de acertos (recall) e a precisão, garantindo que o modelo não seja excessivamente conservador nem gere muitos falsos positivos.
+>
+> **a. Aderência do Modelo:**
 > 
-> **c. Estratégias de retreinamento**
+> - **Aderência parcial:** A base de produção apresenta diferenças na distribuição de `shot_distance` e `period`, resultando em F1-Score menor (0.1645 vs. 0.5129 em teste).
 > 
-> 🔁 Estratégia Reativa
+> **b. Monitoramento:**
 > 
-> - O modelo é reentrenado **após queda de performance** detectada.
-> - Requer que a variável `shot_made_flag` esteja disponível após algum tempo (labels com delay).
-> - Exemplo: agendar reentrenamento mensal com dados rotulados acumulados.
+> - **Com variável resposta:** Acompanhamento de Log Loss e F1-Score.
 > 
-> 🔮 Estratégia Preditiva
+> - **Sem variável resposta:** Análise de distribuição de features (PSI, KS Test) e confiança das predições.
 > 
-> - Reentrenamento ocorre **mesmo sem acesso à variável resposta**, com base em alertas:
->   - Mudanças em distribuições das features.
->   - Aumento da incerteza nas predições.
-> - Pode usar mecanismos automatizados de detecção de drift.
-> - Estratégia ideal para ambientes com **delay na rotulagem**, como produção real.
+> **c. Estratégias de Retreinamento:**
 > 
-> Ambas estratégias podem ser combinadas em um ciclo de MLOps, com **monitoramento contínuo** e **reavaliação periódica do modelo**.
+> - **Reativa:** Reentrena o modelo após detecção de queda no F1-Score.
 > 
-> As métricas e resultados da aplicação foram registradas no MLflow e exibidas no dashboard Streamlit, permitindo acompanhamento contínuo da operação.
+> - **Preditiva:** Reentrena com base em alertas de drift (ex: mudança na distribuição de `shot_distance`).
 > 
 
 ### **Questão 8)**

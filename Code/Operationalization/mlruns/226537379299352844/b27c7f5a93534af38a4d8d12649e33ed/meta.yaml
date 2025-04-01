@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/226537379299352844/b27c7f5a93534af38a4d8d12649e33ed/artifacts
+end_time: 1743470432696
+entry_point_name: ''
+experiment_id: '226537379299352844'
+lifecycle_stage: active
+run_id: b27c7f5a93534af38a4d8d12649e33ed
+run_name: PipelineAplicacao
+run_uuid: b27c7f5a93534af38a4d8d12649e33ed
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743470432629
+status: 3
+tags: []
+user_id: Ian

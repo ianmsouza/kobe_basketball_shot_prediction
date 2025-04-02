@@ -153,7 +153,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > Resposta:
 > <br><br>
 > **1️⃣ Aquisição de Dados**
-> - Coleta dos dados brutos fornecidos (`data.csv`, `dataset_kobe_dev.parquet`, etc.).
+> - Coleta dos dados brutos fornecidos (`dataset_kobe_dev.parquet` e `dataset_kobe_prod.parquet`).
 > - Armazenamento na pasta `/Data/Raw`.
 >
 > **2️⃣ Pré-processamento dos Dados**

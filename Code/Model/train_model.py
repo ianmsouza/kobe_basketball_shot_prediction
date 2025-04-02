@@ -97,10 +97,18 @@ def treinar_modelos(caminho_treino, caminho_teste, caminho_saida):
 
     # Registro dos parâmetros e métricas no MLflow
     mlflow.set_experiment("Treinamento")
-    mlflow.log_param("modelo_selecionado", melhor_nome)
-    mlflow.log_metric("log_loss", modelos_info[melhor_nome]["log_loss"])
-    mlflow.log_metric("f1_score", modelos_info[melhor_nome]["f1_score"])
-    mlflow.log_artifact(f"{caminho_modelo}.pkl")
+    
+    with mlflow.start_run(run_name="Treinamento"):
+        # Log de todos os modelos treinados
+        for nome in modelos_info:
+            mlflow.log_metric(f"{nome}_log_loss", modelos_info[nome]["log_loss"])
+            mlflow.log_metric(f"{nome}_f1_score", modelos_info[nome]["f1_score"])
+    
+        # Log do modelo final selecionado
+        mlflow.log_param("modelo_selecionado", melhor_nome)
+        mlflow.log_metric("log_loss", modelos_info[melhor_nome]["log_loss"])
+        mlflow.log_metric("f1_score", modelos_info[melhor_nome]["f1_score"])
+        mlflow.log_artifact(f"{caminho_modelo}.pkl")
 
     logging.info("🏁 Pipeline de treinamento finalizado.")
 

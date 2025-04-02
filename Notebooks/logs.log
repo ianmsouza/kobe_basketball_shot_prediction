@@ -98,3 +98,13 @@
 2025-03-31 22:00:16,290:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
 2025-03-31 22:01:12,872:INFO:Initializing load_model()
 2025-03-31 22:01:12,873:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)
+2025-04-02 20:34:15,874:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-02 20:34:15,875:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-02 20:34:15,875:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-02 20:34:15,875:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-04-02 20:34:16,834:INFO:Initializing load_model()
+2025-04-02 20:34:16,834:INFO:load_model(model_name=../Data/Modeling/modelo_final, platform=None, authentication=None, verbose=True)

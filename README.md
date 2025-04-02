@@ -42,7 +42,11 @@ infnet-25E1_3/
 │   ├── Diagramas/
 │   │   └── fluxograma_questao2.png
 │   ├── Project/
-│   │   └── Log_execucao_pipeline.md
+│   │   └── execucao_pipeline.md
+├── Notebooks/
+│   ├── analisys_roc.ipynb
+│   ├── criar_diagrama_questao_2.ipynb
+│   └── criar_estrutura_tdsp.ipynb
 ├── requirements.txt
 ├── environment.yml
 └── README.md

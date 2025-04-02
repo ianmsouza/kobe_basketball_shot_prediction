@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Ian/PythonProjects/infnet-25E1_3/Code/Operationalization/mlruns/656453277284377133/3cbf2f0a24e14d82925952cdc239a00a/artifacts
+end_time: 1743637551908
+entry_point_name: ''
+experiment_id: '656453277284377133'
+lifecycle_stage: active
+run_id: 3cbf2f0a24e14d82925952cdc239a00a
+run_name: PreparacaoDados
+run_uuid: 3cbf2f0a24e14d82925952cdc239a00a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743637551829
+status: 3
+tags: []
+user_id: Ian

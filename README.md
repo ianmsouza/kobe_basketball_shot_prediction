@@ -34,6 +34,8 @@ infnet-25E1_3/
 │   │   ├── base_train.parquet
 │   │   ├── base_test.parquet
 │   │   └── predictions_prod.parquet
+│   ├── Modeling/
+│   │   ├── modelo_final.pkl
 ├── Docs/
 │   ├── Imagens/
 │   │   └── charlotte_key_zone.jpeg
@@ -41,8 +43,6 @@ infnet-25E1_3/
 │   │   └── fluxograma_questao2.png
 │   ├── Project/
 │   │   └── Log_execucao_pipeline.md
-├── Modeling/
-│   └── modelo_final.pkl
 ├── requirements.txt
 ├── environment.yml
 └── README.md

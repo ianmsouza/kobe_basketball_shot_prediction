@@ -286,6 +286,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 
 > Resposta:
 >
+> a.<br>
 > Os dados utilizados foram carregados a partir dos arquivos:
 > - `/Data/Raw/dataset_kobe_dev.parquet` (base de desenvolvimento)
 > - `/Data/Raw/dataset_kobe_prod.parquet` (base de produção, usada posteriormente na aplicação)

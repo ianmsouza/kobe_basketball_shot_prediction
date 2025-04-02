@@ -93,6 +93,10 @@ def aplicar_modelo(caminho_modelo, caminho_dados_producao, caminho_saida, thresh
             with mlflow.start_run(run_name="PipelineAplicacao"):
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(output_path)
+            
+                # Log da distribuição das predições
+                pred_dist = df_prod["prediction"].value_counts(normalize=True).to_dict()
+                mlflow.log_metrics({f"pred_class_{int(k)}": float(v) for k, v in pred_dist.items()})
         else:
             logging.warning("⚠️ Nenhuma linha com 'shot_made_flag' válida para avaliação.")
     else:

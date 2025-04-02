@@ -301,7 +301,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > - `shot_distance`: distância do arremesso até a cesta (em pés).
 > - `shot_made_flag`: variável alvo. Valor 1 indica acerto, valor 0 indica erro.
 > 
-> Linhas com qualquer valor nulo nessas colunas foram removidas, como etapa de limpeza obrigatória. Após essa filtragem, o dataset foi salvo em: `/data/processed/data_filtered.parquet`
+> Linhas com qualquer valor nulo nessas colunas foram removidas, como etapa de limpeza obrigatória. Após essa filtragem, o dataset foi salvo em: `/Data/Processed/data_filtered.parquet`
 >
 > A dimensão resultante do dataset após o filtro foi:
 > - **20.285 linhas**
@@ -319,8 +319,8 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > Utilizamos a técnica de **amostragem estratificada** com base na variável `shot_made_flag`, o que garante que a proporção entre acertos e erros seja mantida em ambos os conjuntos.
 >
 > Os arquivos gerados foram:
-> - `/data/processed/base_train.parquet`
-> - `/data/processed/base_test.parquet`
+> - `/Data/Processed/base_train.parquet`
+> - `/Data/Processed/base_test.parquet`
 >
 > Essa divisão foi essencial para que o modelo fosse avaliado de maneira justa em dados **não vistos**, simulando um ambiente de produção real.
 >

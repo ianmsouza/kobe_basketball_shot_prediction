@@ -537,6 +537,7 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 ## Rubricas e Correspondência com as Questões
 
 **1. Desenvolver um sistema de coleta de dados usando APIs públicas**
+
 ✅ O aluno categorizou corretamente os dados?
 <br>Questão: 5
 

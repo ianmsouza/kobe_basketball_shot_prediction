@@ -309,13 +309,16 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > b.<br>
 > Durante a etapa de preparação, foram selecionadas apenas as seguintes colunas, conforme solicitado:
 > 
-> - `lat`: latitude 
-> - `lon`: longitude 
-> - `minutes_remaining`: minutos restantes no período da partida.
-> - `period`: número do período (1 a 4 ou prorrogações).
-> - `playoffs`: indica se a partida é de playoff (1) ou temporada regular (0).
-> - `shot_distance`: distância do arremesso até a cesta (em pés).
-> - `shot_made_flag`: variável alvo. Valor 1 indica acerto, valor 0 indica erro.
+| Campo              | Tipo Esperado        | Descrição                                                                                      |
+|--------------------|----------------------|------------------------------------------------------------------------------------------------|
+| `lat`              | `float`              | Latitude do local do arremesso na quadra. Serve para mapear a posição em conjunto com `lon`.   |
+| `lon`              | `float`              | Longitude do local do arremesso. Em conjunto com `lat`, permite plotar visualizações espaciais.|
+| `minutes_remaining`| `int`                | Minutos restantes no período atual do jogo. Ajuda a entender o contexto temporal do arremesso. |
+| `period`           | `int`                | Número do período do jogo (ex: 1 a 4 para tempo regular, 5+ para prorrogações).                 |
+| `playoffs`         | `int` (`0` ou `1`)   | Indica se o jogo era de playoff (`1`) ou não (`0`).                                            |
+| `shot_distance`    | `int`                | Distância (em pés) do arremesso em relação à cesta.                                            |
+| `shot_made_flag`   | `int` (`0` ou `1`)   | Variável alvo: indica se o arremesso foi convertido (`1`) ou não (`0`).                        |
+
 > 
 > Linhas com qualquer valor nulo nessas colunas foram removidas, como etapa de limpeza obrigatória. Após essa filtragem, o dataset foi salvo em: `/Data/Processed/data_filtered.parquet`
 >

@@ -33,6 +33,9 @@ def aplicar_modelo(caminho_modelo, caminho_dados_producao, caminho_saida, thresh
         caminho_saida (str): Caminho do diretório para salvar os resultados com predições.
         threshold (float, opcional): Limite de probabilidade para converter predições em classe (default: 0.35).
 
+    Returns:
+        None
+        
     """
     logging.info("📦 Carregando modelo treinado...")
     modelo = load_model(caminho_modelo)

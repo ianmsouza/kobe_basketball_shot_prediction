@@ -1,8 +1,8 @@
 # Projeto Final - Engenharia de Machine Learning (25E1_3)
 
 ## Índice  
-- [Sobre](#🎯 Predição de Arremessos de Kobe Bryant com Machine Learning)  
-- [Pré-requisitos](#🛠️ Pré-requisitos)  
+- [Sobre](#Predição)  
+- [Pré-requisitos](#Pré-requisitos)  
 - [Estrutura do Projeto (TDSP)](#🧱 Estrutura do Projeto (TDSP))  
 
 

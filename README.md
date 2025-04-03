@@ -1,20 +1,22 @@
 # Projeto Final - Engenharia de Machine Learning (25E1_3)
 
 ## Índice  
-- [Sobre](#Predição)  
-- [Pré-requisitos](#Pré-requisitos)  
-- [Estrutura do Projeto (TDSP)](#🧱 Estrutura do Projeto (TDSP))  
+- [Sobre](#Sobre)  
+- [Pré-requisitos](#🛠️Pré-requisitos)  
+- [Estrutura do Projeto (TDSP)](#Estrutura)  
 
 
 ---
 
-## 🎯 Predição de Arremessos de Kobe Bryant com Machine Learning
+## Sobre
+
+🎯 Predição de Arremessos de Kobe Bryant com Machine Learning
 
 Este projeto tem como objetivo desenvolver um modelo preditivo utilizando técnicas de Machine Learning para prever o sucesso dos arremessos realizados pelo famoso jogador de basquete Kobe Bryant durante sua carreira na NBA. O projeto explora abordagens de regressão logística e classificação com árvore de decisão para prever acertos ou erros dos arremessos.
 
 ---
 
-## 🛠️ Pré-requisitos
+## 🛠️Pré-requisitos
 Para rodar o projeto, é necessário ter instalado:
 
 - [Conda](https://www.anaconda.com/download)  
@@ -23,7 +25,9 @@ Para rodar o projeto, é necessário ter instalado:
 - Python v3.9.21
 - Anaconda v24.11.3 (Ambiente virtual chamado "infnet-25E1_3")
 
-## 🧱 Estrutura do Projeto (TDSP)
+## Estrutura
+
+🧱 Estrutura do Projeto (TDSP)
 
 ```
 infnet-25E1_3/

@@ -2,7 +2,7 @@
 
 ## Índice  
 - [Sobre](#Sobre)  
-- [Pré-requisitos](#🛠️Pré-requisitos)  
+- [Pré-requisitos](#🛠️Pré_requisitos)  
 - [Estrutura do Projeto (TDSP)](#Estrutura)  
 
 
@@ -16,7 +16,7 @@ Este projeto tem como objetivo desenvolver um modelo preditivo utilizando técni
 
 ---
 
-## 🛠️Pré-requisitos
+## 🛠️Pré_requisitos
 Para rodar o projeto, é necessário ter instalado:
 
 - [Conda](https://www.anaconda.com/download)  

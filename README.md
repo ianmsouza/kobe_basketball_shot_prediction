@@ -3,7 +3,8 @@
 ## Índice  
 - [Sobre](#Sobre)  
 - [Pré-requisitos](#Pre_Requisito)  
-- [Estrutura do Projeto (TDSP)](#Estrutura)  
+- [Estrutura do Projeto (TDSP)](#Estrutura)
+- [Como Executar](#Executar)
 
 
 ---
@@ -77,7 +78,9 @@ infnet-25E1_3/
 
 ---
 
-## 🚀 Como Executar
+## Executar
+
+🚀 Como Executar
 
 ### 1. Criar ambiente Conda e instalar dependências:
 ```bash

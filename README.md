@@ -540,81 +540,113 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 
 -------
 
-## Rubricas e Correspondência com as Questões
+## **Rubricas e Correspondência com as Questões — Entregas e Evidências**
 
-**1. Desenvolver um sistema de coleta de dados usando APIs públicas**
+### Rubrica 1: Desenvolver um sistema de coleta de dados usando APIs públicas
 
-✅ O aluno categorizou corretamente os dados?
-<br>Questão: 5
+✔️ **1.1 O aluno categorizou corretamente os dados?**  
+**Questão:** 5  
+Sim. No `data_preparation.py` os dados são lidos, colunas específicas são selecionadas e valores ausentes são removidos.  
+As colunas utilizadas foram:  
+`['lat', 'lon', 'minutes_remaining', 'period', 'playoffs', 'shot_distance', 'shot_made_flag']`  
+**Evidência:** Código `data_preparation.py` + Resposta da Questão 5 no README
 
-✅ O aluno integrou a leitura dos dados corretamente à sua solução?
-<br>Questões: 5, 6, 7
+✔️ **1.2 O aluno integrou a leitura dos dados corretamente à sua solução?**  
+**Questões:** 5, 6, 7  
+Sim. O pipeline de dados (`data_preparation.py`) integra com `train_model.py`, `aplicacao.py` e dashboards. Tudo orquestrado por `main_pipeline.py`.  
+**Evidência:** `main_pipeline.py`
 
-✅ O aluno aplicou o modelo em produção (servindo como API ou como solução embarcada)?
-<br>Questão: 7
+✔️ **1.3 O aluno aplicou o modelo em produção (servindo como API ou como solução embarcada)?**  
+**Questão:** 7  
+Sim. O script `aplicacao.py` carrega o modelo final e aplica na base de produção. Gera predições, registra métricas no MLflow e exporta artefato `.parquet`.
 
-✅ O aluno indicou se o modelo é aderente à nova base de dados?
-<br>Questão: 7-a
+✔️ **1.4 O aluno indicou se o modelo é aderente à nova base de dados?**  
+**Questão:** 7-a  
+Sim. A resposta à Questão 7-a descreve diferenças entre base de treino e produção e analisa impacto nas métricas (queda de F1 Score).
 
-**2. Criar uma solução de streaming de dados usando pipelines**
+---
 
-✅ O aluno criou um repositório git com a estrutura de projeto baseado no Framework TDSP da Microsoft?
-<br>Questão: 1
+### Rubrica 2: Criar uma solução de streaming de dados usando pipelines
 
-✅ O aluno criou um diagrama que mostra todas as etapas necessárias para a criação de modelos?
-<br>Questão: 2
+✔️ **2.1 O aluno criou um repositório git com a estrutura baseada no TDSP da Microsoft?**  
+**Questão:** 1  
+Sim. Estrutura com pastas `/Code`, `/Data`, `/Docs`, `/Notebooks`, `requirements.txt`, `README.md`, conforme o padrão TDSP.
 
-✅ O aluno treinou um modelo de regressão usando PyCaret e MLflow?
-<br>Questão: 6-a
+✔️ **2.2 O aluno criou um diagrama que mostra todas as etapas necessárias?**  
+**Questão:** 2  
+Sim. Diagramas estão na pasta `/Docs/Diagramas/` e referenciados na Questão 2.
 
-✅ O aluno calculou o Log Loss para o modelo de regressão e registrou no MLflow?
-<br>Questão: 6-b
+✔️ **2.3 Treinamento do modelo de regressão usando PyCaret e MLflow?**  
+**Questão:** 6-a  
+Sim. `train_model.py` treina o modelo `"lr"` (Regressão Logística) e registra no MLflow.
 
-✅ O aluno treinou um modelo de árvore de decisão usando PyCaret e MLflow?
-<br>Questão: 6-c
+✔️ **2.4 Log Loss para regressão registrado no MLflow?**  
+**Questão:** 6-b  
+Sim. A métrica `log_loss` foi calculada e registrada em MLflow.
 
-✅ O aluno calculou o Log Loss e F1 Score para o modelo de árvore de decisão e registrou no MLflow?
-<br>Questão: 6-d
+✔️ **2.5 Treinamento de árvore de decisão com PyCaret e MLflow?**  
+**Questão:** 6-c  
+Sim. O mesmo script treina também o modelo `"dt"` (Árvore de Decisão).
 
-**3. Preparar um modelo previamente treinado para uma solução de streaming de dados**
+✔️ **2.6 Log Loss e F1 Score da árvore registrados?**  
+**Questão:** 6-d  
+Sim. Ambos calculados e registrados no MLflow.
 
-✅ O aluno indicou o objetivo e descreveu detalhadamente cada artefato criado no projeto?
-<br>Questão: 4
+---
 
-✅ O aluno cobriu todos os artefatos do diagrama proposto?
-<br>Questão: 4
+### Rubrica 3: Preparar um modelo previamente treinado para uma solução de streaming de dados
 
-✅ O aluno usou o MLFlow para registrar a rodada "Preparação de Dados" com as métricas e argumentos relevantes?
-<br>Questão: 5
+✔️ **3.1 O aluno indicou o objetivo e descreveu os artefatos?**  
+**Questão:** 4  
+Sim. Questão 4 descreve todos os artefatos do projeto.
 
-✅ O aluno removeu os dados faltantes da base?
-<br>Questão: 5-b
+✔️ **3.2 O aluno cobriu todos os artefatos do diagrama?**  
+**Questão:** 4  
+Sim. Todos os elementos descritos foram implementados como código, arquivos e pastas.
 
-✅ O aluno selecionou as colunas indicadas para criar o modelo?
-<br>Questão: 5-b
+✔️ **3.3 Rodada “PreparacaoDados” registrada no MLflow?**  
+**Questão:** 5  
+Sim. `mlflow.set_experiment("PreparacaoDados")` + `mlflow.start_run(...)`
 
-✅ O aluno indicou quais as dimensões para a base preprocessada?
-<br>Questão: 5-b
+✔️ **3.4 Remoção de dados faltantes da base?**  
+**Questão:** 5-b  
+Sim. Uso explícito de `.dropna()` nas colunas selecionadas.
 
-✅ O aluno criou arquivos para cada fase do processamento e os armazenou nas pastas indicadas?
-<br>Questão: 5 + estrutura de projeto
+✔️ **3.5 Seleção das colunas corretas?**  
+**Questão:** 5-b  
+Sim. Apenas as colunas especificadas no enunciado foram mantidas.
 
-✅ O aluno separou em duas bases, uma para treino e outra para teste?
-<br>Questão: 5-vii
+✔️ **3.6 Dimensão da base preprocessada indicada?**  
+**Questão:** 5-b  
+Sim. Log detalhado + resposta na Questão 5-b.
 
-✅ O aluno criou um pipeline chamado "Treinamento" no MLflow?
-<br>Questão: 6
+✔️ **3.7 Separação treino/teste realizada?**  
+**Questão:** 5-vii  
+Sim. Feita com `train_test_split(..., stratify=y, ...)`
 
-**4. Estabelecer um método de como atualizar o modelo empregado em produção**
+✔️ **3.8 Pipeline "Treinamento" registrado no MLflow?**  
+**Questão:** 6  
+Sim. `mlflow.set_experiment("Treinamento")` + `(...)`.
 
-✅ O aluno identificou a diferença entre a base de desenvolvimento e produção?
-<br>Questão: 7-a
+---
 
-✅ O aluno descreveu como monitorar a saúde do modelo no cenário com e sem a disponibilidade da variável alvo?
-<br>Questão: 7-b
+### Rubrica 4: Estabelecer método de atualização do modelo em produção
 
-✅ O aluno implementou um dashboard de monitoramento da operação usando Streamlit?
-<br>Questão: 8
+✔️ **4.1 Diferença entre base dev e prod identificada?**  
+**Questão:** 7-a  
+Sim. Questão 7-a descreve bem a mudança na distribuição e impacto na performance.
 
-✅ O aluno descreveu as estratégias reativa e preditiva de retreinamento para o modelo em operação?
-<br>Questão: 7-c
+✔️ **4.2 Monitoramento com e sem variável resposta descrito?**  
+**Questão:** 7-b  
+Sim. Questão 7-b cobre ambas as situações (com métricas ou via análise de distribuição/probabilidades).
+
+✔️ **4.3 Dashboard de monitoramento implementado?**  
+**Questão:** 8  
+Sim. São três dashboards completos:
+- `streamlit_dashboard.py`: métricas e matriz de confusão
+- `streamlit_dashboard_mapa.py`: localização geográfica dos arremessos
+- `streamlit_dashboard_simulacao.py`: simulador + heatmap
+
+✔️ **4.4 Estratégias reativa e preditiva descritas?**  
+**Questão:** 7-c  
+Sim. Estratégias explicadas na resposta da Questão 7-c.

@@ -2,7 +2,7 @@
 
 ## Índice  
 - [Sobre](#Sobre)  
-- [Pré-requisitos](#Pre Requisito)  
+- [Pré-requisitos](#Pre_Requisito)  
 - [Estrutura do Projeto (TDSP)](#Estrutura)  
 
 
@@ -16,7 +16,7 @@ Este projeto tem como objetivo desenvolver um modelo preditivo utilizando técni
 
 ---
 
-## Pre Requisito
+## Pre_Requisito
 
 🛠️Pré requisitos
 Para rodar o projeto, é necessário ter instalado:

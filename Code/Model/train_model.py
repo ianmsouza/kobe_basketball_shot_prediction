@@ -47,6 +47,14 @@ def treinar_modelos(caminho_treino, caminho_teste, caminho_saida):
     df_train = pd.read_parquet(caminho_treino)
     df_test = pd.read_parquet(caminho_teste)
 
+    # ⚠️ IMPORTANTE:
+    # Embora o PyCaret permita configurar o tipo de validação cruzada via o parâmetro `fold_strategy`,
+    # versões atuais (como a 3.3.2) não aceitam o valor 'stratifiedkfold' diretamente neste parâmetro.
+    # No entanto, como a variável alvo `shot_made_flag` é binária (0 ou 1),
+    # o PyCaret automaticamente aplica `StratifiedKFold` como estratégia de validação cruzada.
+    # Por isso, não é necessário (nem possível) configurar isso manualmente — já está garantido internamente.
+    # A configuração `fold=10` abaixo define explicitamente o número de dobras da validação cruzada.
+
     logging.info("⚙️ Configurando o ambiente do PyCaret...")
     s = setup(
         data=df_train,
@@ -55,6 +63,7 @@ def treinar_modelos(caminho_treino, caminho_teste, caminho_saida):
         log_experiment=True,
         experiment_name="Treinamento",
         log_plots=False,
+        fold=10,
         verbose=False
     )
 

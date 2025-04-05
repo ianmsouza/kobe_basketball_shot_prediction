@@ -255,9 +255,10 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > - Essa abordagem facilita a implantação de novos modelos sem impactar a operação.
 >
 > **e. Provisionamento (Deployment)**
-> <br>🛠️ Ferramentas principais: MLFlow e Streamlit
-> - O MLFlow Models permite exportar e servir modelos automaticamente como uma API:
-> - Streamlit pode ser usado para criar uma interface gráfica, permitindo que usuários façam previsões diretamente pelo navegador.
+> <br>🛠️ Ferramentas principais: MLflow e Streamlit
+> - O modelo final é exportado com PyCaret e salvo em formato `.pkl`, sendo carregado localmente para aplicação e dashboards.
+> - O MLflow é utilizado para registrar métricas, parâmetros e artefatos de cada rodada.
+> - O Streamlit fornece a interface gráfica interativa, permitindo previsões e análises diretamente no navegador.
 >
 > Isso facilita a interação com o modelo sem precisar de habilidades técnicas.
 >
@@ -444,9 +445,18 @@ Acesse: [http://localhost:5000](http://localhost:5000)
 > 
 > **b. Monitoramento:**
 > 
-> - **Com variável resposta:** Acompanhamento de Log Loss e F1-Score.
-> 
-> - **Sem variável resposta:** Análise de distribuição de features (PSI, KS Test) e confiança das predições.
+> - **Com variável resposta**: 
+>   - O sistema realiza uma **avaliação detalhada da performance do modelo em produção**, utilizando métricas como **Log Loss**, **F1-Score**, **Accuracy**, **Recall**, **Precision** e **Matriz de Confusão**.
+>   - Essas métricas são registradas automaticamente no MLflow via o dashboard analítico (`streamlit_dashboard.py`), permitindo acompanhamento contínuo da saúde do modelo.
+> - **Sem variável resposta**:
+>   - O comportamento do modelo é monitorado de forma indireta, utilizando:
+>     - A **distribuição das predições** sobre a base de produção (`prediction.value_counts()`), registrada no MLflow via `aplicacao.py`;
+>     - A **distribuição das probabilidades previstas**, visualizada no dashboard;
+>     - O **dashboard de simulação** (`streamlit_dashboard_simulacao.py`), que permite avaliar a confiança do modelo em diferentes situações;
+>     - O **heatmap de arremessos** e visualização espacial (`streamlit_dashboard_mapa.py`), que ajudam a identificar padrões regionais.
+>
+> Essas abordagens permitem acompanhar o comportamento do modelo mesmo em cenários onde a variável `shot_made_flag` não está disponível na produção.
+>
 > 
 > **c. Estratégias de Retreinamento:**
 > 
